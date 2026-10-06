@@ -1,1 +1,4 @@
-
+Nombre: Leonor Alejandra
+Apellido: Almanza Arroyo
+Grupo: Virus
+Rol o responsabilidad principal: Diseño / Frontend
