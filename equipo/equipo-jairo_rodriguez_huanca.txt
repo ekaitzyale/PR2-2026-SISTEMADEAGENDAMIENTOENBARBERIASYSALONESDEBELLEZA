@@ -1,1 +1,4 @@
-
+Nombre: Jairo Damian
+Apellido: Rodríguez Huanca
+Grupo: Virus
+Rol o responsabilidad principal: QA / Documentación
