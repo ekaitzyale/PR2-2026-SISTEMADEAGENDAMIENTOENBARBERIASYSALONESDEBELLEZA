@@ -1,0 +1,7 @@
+REPOSITORIO DEL PROYECTO
+
+Nombre del proyecto: Sistema de Agendamiento y Gestión para Barberías y Salones de Belleza
+Grupo: Virus
+
+Repositorio GitHub:
+https://github.com/ekaitzyale/PR2-2026-SISTEMADEAGENDAMIENTOENBARBERIASYSALONESDEBELLEZA
