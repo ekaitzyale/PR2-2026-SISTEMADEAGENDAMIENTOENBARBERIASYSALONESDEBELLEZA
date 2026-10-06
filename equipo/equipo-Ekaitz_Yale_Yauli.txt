@@ -1,1 +1,4 @@
-
+Nombre: Ekaitz
+Apellido: Yale Yauli
+Grupo: Virus
+Rol o responsabilidad principal: Líder / Backend
