@@ -1,94 +1,111 @@
-# PR2-2026 — SISTEMA DE AGENDAMIENTO Y GESTIÓN PARA BARBERÍAS Y SALONES DE BELLEZA
+# PR2-2026 — Sistema de Agendamiento y Gestión para Barberías y Salones de Belleza
 
-> **Equipo:** Virus  
-> **Universidad:** Universidad Privada "Franz Tamayo"  
-> **Sede:** Cochabamba, Bolivia
-
----
+**Equipo:** Virus  
+**Universidad:** Universidad Privada Franz Tamayo  
+**Sede:** Cochabamba, Bolivia  
+**Asignatura:** Programación II — P2  
+**Docente:** Ing. Diego Patrick Cárdenas Sejas
 
 ## 1. Descripción del problema
 
-Las barberías y salones de belleza en Cochabamba gestionan actualmente sus citas mediante cuadernos físicos y mensajes de WhatsApp. Esta forma de trabajo puede generar diferentes dificultades:
+El proyecto aborda las dificultades que pueden presentarse cuando las barberías y salones organizan sus citas mediante cuadernos y mensajes: confusión de horarios, posibles reservas superpuestas, pérdida de tiempo al consultar disponibilidad y dificultad para mantener registros ordenados. La validación de estas necesidades con usuarios reales está pendiente de documentarse.
 
-- Superposición y doble reserva de citas.
-- Pérdida de tiempo del personal al atender consultas.
-- Falta de un historial confiable de clientes.
-- Ausencia de métricas organizadas sobre el funcionamiento del negocio.
-- Demoras e incertidumbre para los clientes.
+## 2. Propósito
 
-## 2. Propósito del proyecto
+Desarrollar una aplicación de escritorio que centralice clientes, profesionales, servicios y citas, con una validación de disponibilidad que impida guardar citas superpuestas para un mismo profesional.
 
-Desarrollar una aplicación de escritorio que **automatice y centralice** el agendamiento de citas, reduciendo errores humanos, optimizando los tiempos de trabajo y mejorando la experiencia de clientes y profesionales.
+## 3. Usuarios
 
-## 3. Usuarios del sistema
+- **Administradores y personal:** organizar registros y gestionar la agenda.
+- **Barberos y estilistas:** consultar las citas asignadas.
+- **Clientes:** recibir una reserva registrada por el personal en el MVP propuesto.
 
-| Perfil | Beneficios |
-|---|---|
-| **Propietarios / Administradores** | Control global, métricas en tiempo real y registros organizados. |
-| **Profesionales (barberos / estilistas)** | Horarios organizados y prevención de empalmes. |
-| **Clientes** | Reservas seguras y confirmación inmediata. |
+## 4. Objetivo general
 
-## 4. Objetivos del proyecto
+Desarrollar una aplicación de escritorio para gestionar clientes, profesionales, servicios y citas, incorporando una validación que impida registrar citas superpuestas para un mismo profesional.
 
-- Implementar una base de datos relacional normalizada en **SQL Server**.
-- Desarrollar una aplicación de escritorio en **C# y Windows Forms** con operaciones CRUD completas.
-- Implementar un algoritmo de validación que **impida automáticamente las citas solapadas**.
-- Incorporar un panel de control con métricas de citas programadas, atendidas y canceladas.
-- Implementar módulos de historial, reportes y facturación.
-
-## 5. Tecnologías utilizadas
+## 5. Tecnologías previstas
 
 | Tecnología | Uso |
 |---|---|
-| **C# (.NET Framework)** | Desarrollo de la aplicación |
-| **Windows Forms** | Diseño de la interfaz gráfica |
-| **SQL Server** | Gestión de la base de datos |
-| **ADO.NET** | Conexión entre la aplicación y la base de datos |
-| **Visual Studio** | Entorno de desarrollo |
-| **GitHub** | Control de versiones y trabajo colaborativo |
+| C# | Lógica de la aplicación |
+| Windows Forms | Interfaz de escritorio |
+| SQL Server | Base de datos relacional |
+| ADO.NET | Conexión entre aplicación y base de datos |
+| Visual Studio | Entorno de desarrollo |
+| GitHub | Control de versiones y documentación compartida |
+
+Las versiones concretas deben acordarse y documentarse antes de la implementación.
 
 ## 6. Equipo y responsabilidades
 
-| Nombre y Apellido | Rol | Responsabilidad principal |
-|---|---|---|
-| **Ekaitz Yale Yauli** | Líder / Backend | Arquitectura, base de datos SQL Server y conexión ADO.NET. |
-| **Leonor Alejandra Almanza Arroyo** | Diseño / Frontend | Interfaces Windows Forms, experiencia de usuario y flujos del sistema. |
-| **Jairo Damian Rodríguez Huanca** | QA / Documentación | Pruebas funcionales, validaciones y documentación en formato APA. |
+| Integrante | Responsabilidad principal |
+|---|---|
+| Ekaitz Yale Yauli | Backend, base de datos y conexión ADO.NET |
+| Leonor Alejandra Almanza Arroyo | Formularios, interfaz y flujo de usuario |
+| Jairo Damian Rodríguez Huanca | Pruebas, evidencias y documentación |
+| Todo el equipo | Alcance, integración, revisión y demostración |
 
-## 7. Estructura del repositorio
+## 7. Documentación del proyecto
+
+### Para comprender y evaluar la madurez
+
+- [Guía de las 52 preguntas del cuestionario de madurez](documentacion/GUIA_CUESTIONARIO_MADUREZ_52_PREGUNTAS.md)
+- [Problema, objetivos, valor e investigación pendiente](documentacion/informe/PROBLEMA_OBJETIVOS_Y_VALIDACION.md)
+- [Alcance y MVP propuesto](documentacion/requisitos/ALCANCE_MVP.md)
+- [Requisitos funcionales y criterios de aceptación](documentacion/requisitos/REQUISITOS_Y_CRITERIOS.md)
+- [Arquitectura técnica y modelo de datos inicial](documentacion/diagramas/ARQUITECTURA_Y_DATOS.md)
+- [Plan de desarrollo y riesgos](documentacion/PLAN_DE_DESARROLLO_Y_RIESGOS.md)
+- [Plan de pruebas y casos verificables](pruebas/casos-prueba/PLAN_DE_PRUEBAS.md)
+- [Presentación del proyecto](presentacion/Presentacion_Proyecto.md)
+
+## 8. Estructura actual
 
 ```text
-PR2-2026-SISTEMADEAGENDAMIENTOENBARBERIASYSALONESDEBELLEZA/
-│
-├── README.md
-│
-├── equipo/
-│   ├── equipo-Ekaitz_Yale_Yauli.txt
-│   ├── equipo-Leonor_Almanza.txt
-│   └── equipo-jairo_rodriguez_huanca.txt
-│
-├── documentacion/
-│   ├── informe/
-│   ├── requisitos/
-│   └── diagramas/
-│
-├── sistema/
-│   ├── codigo/
-│   ├── base-datos/
-│   └── recursos/
-│
-├── pruebas/
-│   ├── evidencias/
-│   └── casos-prueba/
-│
-└── entregables/
+README.md
+documentacion/
+  GUIA_CUESTIONARIO_MADUREZ_52_PREGUNTAS.md
+  PLAN_DE_DESARROLLO_Y_RIESGOS.md
+  informe/
+    PROBLEMA_OBJETIVOS_Y_VALIDACION.md
+  requisitos/
+    ALCANCE_MVP.md
+    REQUISITOS_Y_CRITERIOS.md
+  diagramas/
+    ARQUITECTURA_Y_DATOS.md
+equipo/
+presentacion/
+  Presentacion_Proyecto.md
+pruebas/
+  casos-prueba/
+    PLAN_DE_PRUEBAS.md
+  evidencias/
+sistema/
+  base-datos/
+  codigo/
+  recursos/
+entregables/
 ```
 
-## 8. Estado del proyecto
+## 9. Estado real del repositorio
 
-Este repositorio contiene la estructura base para el desarrollo del proyecto de **Programación II**. A medida que avance el desarrollo, se incorporarán el código fuente, la base de datos, la documentación, los diagramas, las pruebas y los entregables correspondientes.
+La documentación inicial está preparada para responder las 52 preguntas del cuestionario y orientar el desarrollo. Sin embargo, la guía distingue entre decisiones propuestas y evidencias pendientes.
 
----
+**Al revisar el repositorio, todavía no aparecen el código fuente de la aplicación ni scripts SQL.** Las carpetas correspondientes existen, pero están vacías salvo sus archivos de marcador. Por ello, el proyecto no debe presentarse como una aplicación ya implementada ni como un conjunto de pruebas ya ejecutadas.
 
-**Proyecto de Programación II — Universidad Privada "Franz Tamayo"**  
-**Cochabamba, Bolivia — 2026**
+## 10. Próximos pasos prioritarios
+
+1. Revisar y aprobar el MVP propuesto entre los tres integrantes y confirmar con el docente que el alcance es aceptable.
+2. Validar el problema con usuarios potenciales y guardar un resumen real sin datos personales.
+3. Acordar reglas de negocio y versiones de las herramientas.
+4. Crear el modelo SQL y probar la conexión ADO.NET con datos ficticios.
+5. Implementar las funciones del MVP e ir ejecutando los casos de prueba.
+6. Añadir código, scripts, instrucciones de ejecución y evidencias reales al repositorio.
+
+## 11. Equipo
+
+- Ekaitz Yale Yauli — Backend y base de datos.
+- Leonor Alejandra Almanza Arroyo — Interfaz y experiencia de usuario.
+- Jairo Damian Rodríguez Huanca — Pruebas y documentación.
+
+**Nota:** el MVP y las fechas del plan son propuestas iniciales y deben confirmarse con el equipo y el docente. La documentación no sustituye el desarrollo ni la evidencia de pruebas ejecutadas.
