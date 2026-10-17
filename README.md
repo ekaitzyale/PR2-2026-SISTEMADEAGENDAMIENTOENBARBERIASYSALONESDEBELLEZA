@@ -56,6 +56,7 @@ Las versiones concretas deben acordarse y documentarse antes de la implementaci√
 - [Requisitos funcionales y criterios de aceptaci√≥n](documentacion/requisitos/REQUISITOS_Y_CRITERIOS.md)
 - [Arquitectura t√©cnica y modelo de datos inicial](documentacion/diagramas/ARQUITECTURA_Y_DATOS.md)
 - [Plan de desarrollo y riesgos](documentacion/PLAN_DE_DESARROLLO_Y_RIESGOS.md)
+- [Diagrama de Gantt tentativo](documentacion/GANTT.md)
 - [Plan de pruebas y casos verificables](pruebas/casos-prueba/PLAN_DE_PRUEBAS.md)
 - [Presentaci√≥n del proyecto](presentacion/Presentacion_Proyecto.md)
 
@@ -65,6 +66,7 @@ Las versiones concretas deben acordarse y documentarse antes de la implementaci√
 README.md
 documentacion/
   GUIA_CUESTIONARIO_MADUREZ_52_PREGUNTAS.md
+  GANTT.md
   PLAN_DE_DESARROLLO_Y_RIESGOS.md
   informe/
     PROBLEMA_OBJETIVOS_Y_VALIDACION.md
