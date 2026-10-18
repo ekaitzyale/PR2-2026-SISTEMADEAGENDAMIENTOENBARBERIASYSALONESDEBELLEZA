@@ -1,113 +1,82 @@
 # PR2-2026 — Sistema de Agendamiento y Gestión para Barberías y Salones de Belleza
 
-**Equipo:** Virus  
-**Universidad:** Universidad Privada Franz Tamayo  
-**Sede:** Cochabamba, Bolivia  
-**Asignatura:** Programación II — P2  
+**Equipo:** Virus
+**Universidad:** Universidad Privada Franz Tamayo
+**Sede:** Cochabamba, Bolivia
+**Asignatura:** Programación II — P2
 **Docente:** Ing. Diego Patrick Cárdenas Sejas
 
-## 1. Descripción del problema
+---
 
-El proyecto aborda las dificultades que pueden presentarse cuando las barberías y salones organizan sus citas mediante cuadernos y mensajes: confusión de horarios, posibles reservas superpuestas, pérdida de tiempo al consultar disponibilidad y dificultad para mantener registros ordenados. La validación de estas necesidades con usuarios reales está pendiente de documentarse.
+##  1. Descripción del problema
 
-## 2. Propósito
+El proyecto aborda las dificultades que presentan las barberías y salones al organizar sus citas de forma manual: confusión de horarios, reservas superpuestas, pérdida de tiempo al consultar disponibilidad y dificultad para mantener registros ordenados. Se realizó una observación inicial en negocios del rubro que confirma que la gestión manual de agendas es una necesidad real y frecuente.
+
+##  2. Propósito
 
 Desarrollar una aplicación de escritorio que centralice clientes, profesionales, servicios y citas, con una validación de disponibilidad que impida guardar citas superpuestas para un mismo profesional.
 
-## 3. Usuarios
+##  3. Usuarios
 
-- **Administradores y personal:** organizar registros y gestionar la agenda.
-- **Barberos y estilistas:** consultar las citas asignadas.
-- **Clientes:** recibir una reserva registrada por el personal en el MVP propuesto.
+- **Administradores y personal de recepción:** registrar clientes, gestionar profesionales, servicios y reservar/modificar/cancelar citas.
+- **Barberos y estilistas:** consultar su agenda diaria.
+- **Clientes:** reciben una reserva registrada por el personal.
 
-## 4. Objetivo general
+##  4. Estado actual del proyecto
 
-Desarrollar una aplicación de escritorio para gestionar clientes, profesionales, servicios y citas, incorporando una validación que impida registrar citas superpuestas para un mismo profesional.
+> ** En desarrollo — Conexión base de datos ↔ aplicación: FUNCIONANDO**
 
-## 5. Tecnologías previstas
+###  Logros alcanzados:
+-  Base de datos `SistemaAgendamiento` creada en SQL Server
+-  Tablas definidas: `Cliente`, `Profesional`, `Servicio`, `Cita`
+-  Clase `ConexionBD` implementada con cadena de conexión
+-  Prueba de conexión exitosa desde Windows Forms hacia SQL Server
+-  Entorno de desarrollo configurado y funcional en todos los equipos
 
-| Tecnología | Uso |
-|---|---|
-| C# | Lógica de la aplicación |
-| Windows Forms | Interfaz de escritorio |
-| SQL Server | Base de datos relacional |
-| ADO.NET | Conexión entre aplicación y base de datos |
-| Visual Studio | Entorno de desarrollo |
-| GitHub | Control de versiones y documentación compartida |
+###  En progreso:
+-  Formularios de mantenimiento de datos
+-  Lógica de validación de solapamiento de citas
+-  Casos de prueba completos
 
-Las versiones concretas deben acordarse y documentarse antes de la implementación.
+##  5. Tecnologías utilizadas
 
-## 6. Equipo y responsabilidades
+| Tecnología | Versión/Entorno | Uso |
+|---|---|---|
+| C# | .NET Framework | Lógica de la aplicación |
+| Windows Forms | Visual Studio | Interfaz de escritorio |
+| SQL Server | Local | Motor de base de datos |
+| ADO.NET (`System.Data.SqlClient`) | — | Conexión con la base de datos |
+| Visual Studio 2022 | Community/Pro | Entorno de desarrollo |
+| GitHub | — | Control de versiones y respaldo |
+
+##  6. Estructura de la base de datos
+
+**Tablas creadas:**
+- `Cliente` — Datos personales de los clientes
+- `Profesional` — Información del personal del salón
+- `Servicio` — Catálogo de servicios ofrecidos con precio y duración
+- `Cita` — Registro de reservas con fecha, hora, cliente, profesional y servicio
+
+##  7. Equipo y responsabilidades
 
 | Integrante | Responsabilidad principal |
 |---|---|
-| Ekaitz Yale Yauli | Backend, base de datos y conexión ADO.NET |
-| Leonor Alejandra Almanza Arroyo | Formularios, interfaz y flujo de usuario |
-| Jairo Damian Rodríguez Huanca | Pruebas, evidencias y documentación |
-| Todo el equipo | Alcance, integración, revisión y demostración |
+| Ekaitz Yale Yauli | Diseño de base de datos, clase de conexión ADO.NET y acceso a datos |
+| Leonor Alejandra Almanza Arroyo | Diseño de formularios, interfaz de usuario y validaciones visuales |
+| Jairo Damian Rodríguez Huanca | Casos de prueba, evidencias de ejecución y documentación del proyecto |
+| Todo el equipo | Definición de alcance, integración de módulos y revisión general |
 
-## 7. Documentación del proyecto
+##  8. Cómo ejecutar el proyecto
 
-### Para comprender y evaluar la madurez
+### Requisitos previos:
+1. Windows 10 o superior
+2. Visual Studio 2022 con carga de trabajo "Desarrollo de escritorio con .NET"
+3. SQL Server instalado y corriendo localmente
+4. .NET Framework instalado
 
-- [Guía de las 52 preguntas del cuestionario de madurez](documentacion/GUIA_CUESTIONARIO_MADUREZ_52_PREGUNTAS.md)
-- [Problema, objetivos, valor e investigación pendiente](documentacion/informe/PROBLEMA_OBJETIVOS_Y_VALIDACION.md)
-- [Alcance y MVP propuesto](documentacion/requisitos/ALCANCE_MVP.md)
-- [Requisitos funcionales y criterios de aceptación](documentacion/requisitos/REQUISITOS_Y_CRITERIOS.md)
-- [Arquitectura técnica y modelo de datos inicial](documentacion/diagramas/ARQUITECTURA_Y_DATOS.md)
-- [Plan de desarrollo y riesgos](documentacion/PLAN_DE_DESARROLLO_Y_RIESGOS.md)
-- [Diagrama de Gantt tentativo](documentacion/GANTT.md)
-- [Plan de pruebas y casos verificables](pruebas/casos-prueba/PLAN_DE_PRUEBAS.md)
-- [Presentación del proyecto](presentacion/Presentacion_Proyecto.md)
-
-## 8. Estructura actual
-
-```text
-README.md
-documentacion/
-  GUIA_CUESTIONARIO_MADUREZ_52_PREGUNTAS.md
-  GANTT.md
-  PLAN_DE_DESARROLLO_Y_RIESGOS.md
-  informe/
-    PROBLEMA_OBJETIVOS_Y_VALIDACION.md
-  requisitos/
-    ALCANCE_MVP.md
-    REQUISITOS_Y_CRITERIOS.md
-  diagramas/
-    ARQUITECTURA_Y_DATOS.md
-equipo/
-presentacion/
-  Presentacion_Proyecto.md
-pruebas/
-  casos-prueba/
-    PLAN_DE_PRUEBAS.md
-  evidencias/
-sistema/
-  base-datos/
-  codigo/
-  recursos/
-entregables/
-```
-
-## 9. Estado real del repositorio
-
-La documentación inicial está preparada para responder las 52 preguntas del cuestionario y orientar el desarrollo. Sin embargo, la guía distingue entre decisiones propuestas y evidencias pendientes.
-
-**Al revisar el repositorio, todavía no aparecen el código fuente de la aplicación ni scripts SQL.** Las carpetas correspondientes existen, pero están vacías salvo sus archivos de marcador. Por ello, el proyecto no debe presentarse como una aplicación ya implementada ni como un conjunto de pruebas ya ejecutadas.
-
-## 10. Próximos pasos prioritarios
-
-1. Revisar y aprobar el MVP propuesto entre los tres integrantes y confirmar con el docente que el alcance es aceptable.
-2. Validar el problema con usuarios potenciales y guardar un resumen real sin datos personales.
-3. Acordar reglas de negocio y versiones de las herramientas.
-4. Crear el modelo SQL y probar la conexión ADO.NET con datos ficticios.
-5. Implementar las funciones del MVP e ir ejecutando los casos de prueba.
-6. Añadir código, scripts, instrucciones de ejecución y evidencias reales al repositorio.
-
-## 11. Equipo
-
-- Ekaitz Yale Yauli — Backend y base de datos.
-- Leonor Alejandra Almanza Arroyo — Interfaz y experiencia de usuario.
-- Jairo Damian Rodríguez Huanca — Pruebas y documentación.
-
-**Nota:** el MVP y las fechas del plan son propuestas iniciales y deben confirmarse con el equipo y el docente. La documentación no sustituye el desarrollo ni la evidencia de pruebas ejecutadas.
+### Pasos de configuración:
+1. Clonar o descargar el repositorio
+2. Abrir `SistemaAgendamiento.sln` con Visual Studio
+3. Verificar/actualizar la cadena de conexión en `ConexionBD.cs` según tu instancia de SQL Server:
+   ```csharp
+   private string cadenaConexion = @"Data Source=NOMBRE_SERVIDOR;Initial Catalog=SistemaAgendamiento;Integrated Security=True";
