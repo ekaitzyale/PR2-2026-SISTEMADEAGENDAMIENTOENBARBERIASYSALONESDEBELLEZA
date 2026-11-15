@@ -1,82 +1,118 @@
 # PR2-2026 — Sistema de Agendamiento y Gestión para Barberías y Salones de Belleza
 
-**Equipo:** Virus
-**Universidad:** Universidad Privada Franz Tamayo
-**Sede:** Cochabamba, Bolivia
-**Asignatura:** Programación II — P2
+**Equipo:** Virus  
+**Universidad:** Universidad Privada Franz Tamayo  
+**Sede:** Cochabamba, Bolivia  
+**Asignatura:** Programación II — P2  
 **Docente:** Ing. Diego Patrick Cárdenas Sejas
 
----
+## 1. Descripción del proyecto
 
-##  1. Descripción del problema
+El proyecto busca mejorar la organización de citas en barberías y salones de belleza. La gestión manual puede provocar confusión de horarios, reservas superpuestas, pérdida de tiempo al consultar disponibilidad y dificultad para mantener registros ordenados.
 
-El proyecto aborda las dificultades que presentan las barberías y salones al organizar sus citas de forma manual: confusión de horarios, reservas superpuestas, pérdida de tiempo al consultar disponibilidad y dificultad para mantener registros ordenados. Se realizó una observación inicial en negocios del rubro que confirma que la gestión manual de agendas es una necesidad real y frecuente.
+Se propone desarrollar una aplicación de escritorio que permita centralizar la información de clientes, profesionales, servicios y citas.
 
-##  2. Propósito
+## 2. Objetivo
 
-Desarrollar una aplicación de escritorio que centralice clientes, profesionales, servicios y citas, con una validación de disponibilidad que impida guardar citas superpuestas para un mismo profesional.
+Desarrollar un sistema de escritorio que facilite el registro y la administración de clientes, profesionales, servicios y citas, incluyendo una validación para evitar que un mismo profesional tenga citas superpuestas.
 
-##  3. Usuarios
+## 3. Usuarios del sistema
 
-- **Administradores y personal de recepción:** registrar clientes, gestionar profesionales, servicios y reservar/modificar/cancelar citas.
-- **Barberos y estilistas:** consultar su agenda diaria.
-- **Clientes:** reciben una reserva registrada por el personal.
+- **Administradores y recepción:** registran clientes, profesionales, servicios y gestionan las citas.
+- **Barberos y estilistas:** consultan su agenda.
+- **Clientes:** solicitan y reciben sus reservas a través del personal del establecimiento.
 
-##  4. Estado actual del proyecto
+## 4. Tecnologías previstas
 
-> ** En desarrollo — Conexión base de datos ↔ aplicación: FUNCIONANDO**
+| Tecnología | Uso |
+|---|---|
+| C# con .NET Framework | Desarrollo de la aplicación |
+| Windows Forms | Interfaz gráfica |
+| SQL Server | Almacenamiento de datos |
+| ADO.NET (`System.Data.SqlClient`) | Acceso a la base de datos |
+| Visual Studio 2022 | Entorno de desarrollo |
+| Git y GitHub | Control de versiones y trabajo colaborativo |
 
-###  Logros alcanzados:
--  Base de datos `SistemaAgendamiento` creada en SQL Server
--  Tablas definidas: `Cliente`, `Profesional`, `Servicio`, `Cita`
--  Clase `ConexionBD` implementada con cadena de conexión
--  Prueba de conexión exitosa desde Windows Forms hacia SQL Server
--  Entorno de desarrollo configurado y funcional en todos los equipos
+## 5. Estado del proyecto
 
-###  En progreso:
--  Formularios de mantenimiento de datos
--  Lógica de validación de solapamiento de citas
--  Casos de prueba completos
+Según el avance documentado por el equipo, la base de datos `SistemaAgendamiento` y la prueba de conexión desde Windows Forms se encuentran realizadas. Los formularios de mantenimiento, la validación de solapamiento de citas y las pruebas deben completarse y documentarse.
 
-##  5. Tecnologías utilizadas
+**Importante:** el repositorio todavía debe incorporar el proyecto de Visual Studio (`.sln`, `.csproj` y archivos de código) y el script SQL de creación de la base de datos. Hasta que esos archivos estén subidos, una persona que clone únicamente este repositorio no podrá ejecutar la aplicación.
 
-| Tecnología | Versión/Entorno | Uso |
-|---|---|---|
-| C# | .NET Framework | Lógica de la aplicación |
-| Windows Forms | Visual Studio | Interfaz de escritorio |
-| SQL Server | Local | Motor de base de datos |
-| ADO.NET (`System.Data.SqlClient`) | — | Conexión con la base de datos |
-| Visual Studio 2022 | Community/Pro | Entorno de desarrollo |
-| GitHub | — | Control de versiones y respaldo |
+## 6. Estructura del repositorio
 
-##  6. Estructura de la base de datos
+```text
+/
+├── .editorconfig
+├── .gitignore
+├── README.md
+├── documentacion/
+│   ├── diagramas/
+│   ├── informe/
+│   ├── requisitos/
+│   ├── GANTT.md
+│   ├── GUIA_CUESTIONARIO_MADUREZ_52_PREGUNTAS.md
+│   └── PLAN_DE_DESARROLLO_Y_RIESGOS.md
+├── entregables/
+├── equipo/
+├── presentacion/
+├── pruebas/
+│   ├── casos-prueba/
+│   └── evidencias/
+└── sistema/
+    ├── base-datos/
+    ├── codigo/
+    └── recursos/
+```
 
-**Tablas creadas:**
-- `Cliente` — Datos personales de los clientes
-- `Profesional` — Información del personal del salón
-- `Servicio` — Catálogo de servicios ofrecidos con precio y duración
-- `Cita` — Registro de reservas con fecha, hora, cliente, profesional y servicio
+### ¿Qué debe guardarse en cada carpeta?
 
-##  7. Equipo y responsabilidades
+| Carpeta | Contenido |
+|---|---|
+| `documentacion/requisitos` | Requisitos funcionales, no funcionales y alcance |
+| `documentacion/diagramas` | Diagramas de casos de uso, clases, actividades y modelo de datos |
+| `documentacion/informe` | Informe técnico y documentos finales |
+| `equipo` | Integrantes y responsabilidades |
+| `presentacion` | Material para exposiciones |
+| `sistema/codigo` | Solución de Visual Studio, proyectos y código fuente |
+| `sistema/base-datos` | Scripts SQL para crear y preparar la base de datos |
+| `sistema/recursos` | Imágenes, iconos y otros recursos de la aplicación |
+| `pruebas/casos-prueba` | Plan y resultados de pruebas |
+| `pruebas/evidencias` | Capturas de pantalla y evidencias de ejecución |
+| `entregables` | Versiones finales solicitadas para la entrega |
+
+## 7. Equipo y responsabilidades
 
 | Integrante | Responsabilidad principal |
 |---|---|
-| Ekaitz Yale Yauli | Diseño de base de datos, clase de conexión ADO.NET y acceso a datos |
+| Ekaitz Yale Yauli | Diseño de base de datos, conexión ADO.NET y acceso a datos |
 | Leonor Alejandra Almanza Arroyo | Diseño de formularios, interfaz de usuario y validaciones visuales |
-| Jairo Damian Rodríguez Huanca | Casos de prueba, evidencias de ejecución y documentación del proyecto |
-| Todo el equipo | Definición de alcance, integración de módulos y revisión general |
+| Jairo Damian Rodríguez Huanca | Casos de prueba, evidencias y documentación |
+| Todo el equipo | Definición del alcance, integración y revisión |
 
-##  8. Cómo ejecutar el proyecto
+## 8. Requisitos para ejecutar
 
-### Requisitos previos:
-1. Windows 10 o superior
-2. Visual Studio 2022 con carga de trabajo "Desarrollo de escritorio con .NET"
-3. SQL Server instalado y corriendo localmente
-4. .NET Framework instalado
+- Windows 10 o superior.
+- Visual Studio 2022 con la carga de trabajo de desarrollo de escritorio con .NET.
+- SQL Server instalado y en funcionamiento.
+- Versión de .NET Framework compatible con el proyecto.
 
-### Pasos de configuración:
-1. Clonar o descargar el repositorio
-2. Abrir `SistemaAgendamiento.sln` con Visual Studio
-3. Verificar/actualizar la cadena de conexión en `ConexionBD.cs` según tu instancia de SQL Server:
-   ```csharp
-   private string cadenaConexion = @"Data Source=NOMBRE_SERVIDOR;Initial Catalog=SistemaAgendamiento;Integrated Security=True";
+## 9. Preparación y ejecución
+
+Cuando el equipo incorpore la solución y el script SQL al repositorio:
+
+1. Clonar el repositorio.
+2. Abrir la solución `.sln` ubicada en `sistema/codigo`.
+3. Crear la base de datos utilizando el script ubicado en `sistema/base-datos`.
+4. Revisar la cadena de conexión en la clase `ConexionBD`.
+5. Compilar y ejecutar desde Visual Studio.
+
+No se debe publicar una cadena de conexión con contraseñas ni otros datos privados. Cada integrante debe configurar sus datos locales.
+
+## 10. Trabajo colaborativo
+
+- Realizar cambios pequeños y guardar avances con mensajes de commit descriptivos.
+- No subir carpetas generadas por Visual Studio como `.vs`, `bin` y `obj`.
+- No subir contraseñas, credenciales ni cadenas de conexión privadas.
+- Antes de modificar archivos compartidos, revisar los cambios recientes del equipo.
+- Mantener actualizados el README, la documentación y las evidencias.
