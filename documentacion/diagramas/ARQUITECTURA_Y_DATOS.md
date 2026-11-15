@@ -1,82 +1,98 @@
-# Arquitectura técnica inicial y modelo de datos
+# Arquitectura técnica y modelo de datos
 
-**Estado:** diseño conceptual. Debe compararse con el diagrama relacional del documento inicial antes de crear tablas definitivas.
+**Estado:** modelo inicial propuesto para el MVP, alineado con las seis entidades incluidas en la presentación del equipo. Debe revisarse con el docente y mantenerse sincronizado con el script SQL.
 
-## 1. Arquitectura propuesta
+## 1. Arquitectura
 
-1. **Presentación:** formularios Windows Forms para ingresar datos, consultar agenda y mostrar mensajes.
-2. **Lógica de negocio:** validaciones, reglas de citas, cálculo de hora final y comprobación de disponibilidad.
-3. **Acceso a datos:** ADO.NET, consultas parametrizadas y operaciones CRUD sobre SQL Server.
+La aplicación se organiza en tres partes:
+
+1. **Presentación:** formularios Windows Forms para registrar datos, consultar agenda y mostrar mensajes.
+2. **Lógica de negocio:** validaciones, reglas de citas, cálculo de duración y disponibilidad.
+3. **Acceso a datos:** clases ADO.NET que ejecutan consultas parametrizadas contra SQL Server.
 
 Flujo: Formulario → lógica de negocio → acceso a datos (ADO.NET) → SQL Server.
 
-Los formularios no deben concentrar toda la lógica de negocio ni construir consultas SQL concatenando texto ingresado por el usuario.
+Los formularios no deben concentrar toda la lógica ni construir consultas SQL concatenando texto ingresado por el usuario.
 
-## 2. Entidades mínimas propuestas para el MVP
+## 2. Entidades del modelo
 
 ### CLIENTE
-- IdCliente — clave primaria.
-- Nombre.
-- Telefono.
-- Correo — opcional, si se confirma.
+- `IdCliente`: clave primaria.
+- `Nombre`: obligatorio.
+- `Telefono`: obligatorio.
+- `Email`: opcional.
 
 ### PROFESIONAL
-- IdProfesional — clave primaria.
-- Nombre.
-- Especialidad o tipo de profesional, según acuerdo.
-- Activo — opcional si se necesita desactivar sin borrar historial.
+- `IdProfesional`: clave primaria.
+- `Nombre`: obligatorio.
+- `Especialidad`: obligatorio.
+- `Activo`: permite desactivar sin borrar el historial.
 
 ### SERVICIO
-- IdServicio — clave primaria.
-- Nombre.
-- DuracionMinutos.
-- Precio.
-- Activo — opcional.
+- `IdServicio`: clave primaria.
+- `Nombre`: obligatorio.
+- `DuracionMinutos`: entero mayor que cero.
+- `Precio`: decimal no negativo.
+- `Activo`: permite desactivar servicios sin borrar su historial.
 
 ### CITA
-- IdCita — clave primaria.
-- IdCliente — clave foránea.
-- IdProfesional — clave foránea.
-- IdServicio — clave foránea en la versión mínima de un servicio por cita.
-- FechaHoraInicio.
-- FechaHoraFin o duración calculada de forma consistente.
-- Estado: por ejemplo, programada, atendida o cancelada.
+- `IdCita`: clave primaria.
+- `FechaHoraInicio` y `FechaHoraFin`: intervalo reservado.
+- `Estado`: Programada, Atendida o Cancelada.
+- `IdCliente`: clave foránea.
+- `IdProfesional`: clave foránea.
+- `Observacion`: opcional.
 
-Si se acuerda que una cita puede incluir varios servicios, se debe incorporar una tabla de detalle y calcular la duración total. Esta decisión no debe quedar implícita.
+### DETALLE_CITA
+- `IdDetalle`: clave primaria.
+- `IdCita`: clave foránea.
+- `IdServicio`: clave foránea.
+- `Precio`: precio histórico del servicio al reservar.
+- `DuracionMinutos`: duración histórica del servicio al reservar.
 
-## 3. Relaciones iniciales
+Una cita puede contener uno o varios servicios. La duración total se obtiene sumando las duraciones de sus detalles. La hora final de la cita debe corresponder a esa duración total.
 
-- Un cliente puede tener muchas citas: CLIENTE 1:N CITA.
-- Un profesional puede atender muchas citas: PROFESIONAL 1:N CITA.
-- Un servicio puede aparecer en muchas citas: SERVICIO 1:N CITA en la versión mínima.
+### FACTURA
+- `IdFactura`: clave primaria.
+- `IdCita`: clave foránea y único, para permitir como máximo una factura por cita.
+- `FechaEmision`: fecha y hora de emisión.
+- `Total`: importe no negativo.
+- `Estado`: Pendiente, Pagada o Anulada.
 
-El modelo inicial del documento del equipo contempla otras entidades: categorías, trabajadores, administrativos, barberos, estilistas, sucursales, detalles, productos y facturas. No deben eliminarse automáticamente; el equipo debe decidir si son obligatorias. Para el MVP se recomienda no desarrollar tablas que no se utilizarán.
+La factura del MVP es un registro interno de cobro; no equivale a facturación fiscal electrónica.
+
+## 3. Relaciones
+
+- CLIENTE 1:N CITA.
+- PROFESIONAL 1:N CITA.
+- CITA 1:N DETALLE_CITA.
+- SERVICIO 1:N DETALLE_CITA.
+- CITA 1:0..1 FACTURA.
 
 ## 4. Regla de solapamiento
 
-Para una cita nueva se obtiene el inicio y el fin. Existe solapamiento si, para una cita activa del mismo profesional:
+Para una cita nueva se obtiene el inicio y el fin. Existe solapamiento cuando, para una cita no cancelada del mismo profesional:
 
-**inicioNuevo < finExistente** y **finNuevo > inicioExistente**
+`inicioNuevo < finExistente AND finNuevo > inicioExistente`
 
-Se excluyen citas canceladas y, al modificar, se excluye el identificador de la cita actual. Debe considerarse la consistencia si dos usuarios intentan guardar reservas casi simultáneamente.
+Se excluye la cita actual cuando se modifica. Las citas canceladas no bloquean el horario. La comprobación debe ejecutarse en la lógica de negocio antes de guardar; para evitar carreras entre reservas simultáneas se debe ejecutar la comprobación y escritura dentro de una transacción adecuada.
 
-## 5. Decisiones técnicas pendientes
+## 5. Decisiones que debe confirmar el equipo
 
-- Versión de .NET y SQL Server.
-- Nombre de la base de datos y configuración de conexión.
-- Uno o varios servicios por cita.
-- Almacenar o calcular el fin de la cita.
-- Horarios laborales, pausas y estados.
-- Cuentas y roles de usuario en el MVP.
-- Si el modelo ampliado del documento inicial es obligatorio.
+- Si el docente exige factura o solo un registro interno de pago.
+- Si se permitirán varios servicios por cita (este modelo lo permite).
+- Horarios laborales, pausas y días no laborables.
+- Si los profesionales tendrán cuentas propias.
+- Versiones exactas de .NET Framework y SQL Server.
 
-## 6. Prueba técnica temprana
+## 6. Prueba técnica inicial
 
-Antes de construir todos los formularios:
-1. Crear una base de datos de prueba sin datos reales.
-2. Conectar una aplicación de prueba mediante ADO.NET.
-3. Insertar y consultar un registro con parámetros.
-4. Probar un error controlado de conexión.
-5. Guardar resultado, versiones utilizadas y evidencia.
+1. Ejecutar `sistema/base-datos/01_Crear_Base_Datos.sql` en SQL Server.
+2. Confirmar que aparecen las seis tablas.
+3. Insertar datos ficticios para probar relaciones.
+4. Conectar la aplicación mediante ADO.NET.
+5. Registrar y consultar un dato usando parámetros.
+6. Probar un error controlado de conexión.
+7. Guardar capturas y registrar resultados en `pruebas/evidencias`.
 
-No marcar esta validación como realizada hasta que se ejecute.
+No marcar la conexión o las pruebas como realizadas hasta ejecutarlas.
