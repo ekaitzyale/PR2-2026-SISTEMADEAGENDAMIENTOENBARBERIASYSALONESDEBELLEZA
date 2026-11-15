@@ -1,0 +1,32 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Compilación de .NET
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa]rtifacts/
+
+# Archivos temporales
+*.tmp
+*.log
+*.cache
+
+# Configuración local y secretos
+.env
+.env.*
+!.env.example
+secrets.json
+appsettings.Local.json
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
