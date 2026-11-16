@@ -1,98 +1,85 @@
 # Arquitectura técnica y modelo de datos
 
-**Estado:** modelo inicial propuesto para el MVP, alineado con las seis entidades incluidas en la presentación del equipo. Debe revisarse con el docente y mantenerse sincronizado con el script SQL.
+**Estado:** documentación alineada con el esquema actual de cuatro tablas del MVP.
 
 ## 1. Arquitectura
 
-La aplicación se organiza en tres partes:
+La aplicación es una solución de escritorio desarrollada con C# y Windows Forms sobre .NET Framework 4.8. La arquitectura separa tres responsabilidades:
 
-1. **Presentación:** formularios Windows Forms para registrar datos, consultar agenda y mostrar mensajes.
-2. **Lógica de negocio:** validaciones, reglas de citas, cálculo de duración y disponibilidad.
-3. **Acceso a datos:** clases ADO.NET que ejecutan consultas parametrizadas contra SQL Server.
+1. **Presentación:** formularios Windows Forms para mostrar información y recibir datos.
+2. **Lógica de negocio:** validaciones, reglas de agenda y disponibilidad.
+3. **Acceso a datos:** clases ADO.NET para comunicarse con SQL Server.
 
-Flujo: Formulario → lógica de negocio → acceso a datos (ADO.NET) → SQL Server.
+Flujo general: formulario → lógica de negocio → acceso a datos → SQL Server.
 
-Los formularios no deben concentrar toda la lógica ni construir consultas SQL concatenando texto ingresado por el usuario.
+## 2. Componentes
 
-## 2. Entidades del modelo
+| Componente | Responsabilidad |
+|---|---|
+| Windows Forms | Interfaz y navegación |
+| Lógica de negocio | Validaciones y reglas de agendamiento |
+| ADO.NET | Conexión y ejecución de consultas parametrizadas |
+| SQL Server | Persistencia de clientes, profesionales, servicios y citas |
+
+La clase de conexión publicada se encuentra en sistema/codigo/SistemaAgendamiento/Datos/ConexionBD.cs y obtiene la cadena desde App.config. Cada integrante debe adaptar Data Source a su instancia local.
+
+## 3. Modelo de datos actual
+
+El esquema actual contiene exactamente cuatro tablas:
 
 ### CLIENTE
-- `IdCliente`: clave primaria.
-- `Nombre`: obligatorio.
-- `Telefono`: obligatorio.
-- `Email`: opcional.
+- IdCliente: clave primaria autoincremental.
+- Nombre: obligatorio.
+- Telefono: obligatorio.
+- Email: opcional.
 
 ### PROFESIONAL
-- `IdProfesional`: clave primaria.
-- `Nombre`: obligatorio.
-- `Especialidad`: obligatorio.
-- `Activo`: permite desactivar sin borrar el historial.
+- IdProfesional: clave primaria autoincremental.
+- Nombre y Especialidad: obligatorios.
+- Activo: indica si está habilitado.
 
 ### SERVICIO
-- `IdServicio`: clave primaria.
-- `Nombre`: obligatorio.
-- `DuracionMinutos`: entero mayor que cero.
-- `Precio`: decimal no negativo.
-- `Activo`: permite desactivar servicios sin borrar su historial.
+- IdServicio: clave primaria autoincremental.
+- Nombre: obligatorio.
+- DuracionMinutos: entero mayor que cero.
+- Precio: decimal no negativo.
+- Activo: indica si se ofrece actualmente.
 
 ### CITA
-- `IdCita`: clave primaria.
-- `FechaHoraInicio` y `FechaHoraFin`: intervalo reservado.
-- `Estado`: Programada, Atendida o Cancelada.
-- `IdCliente`: clave foránea.
-- `IdProfesional`: clave foránea.
-- `Observacion`: opcional.
+- IdCita: clave primaria autoincremental.
+- FechaHoraInicio y FechaHoraFin: intervalo reservado.
+- Estado: Programada, Atendida o Cancelada.
+- IdCliente: clave foránea hacia CLIENTE.
+- IdProfesional: clave foránea hacia PROFESIONAL.
+- Observacion: opcional.
 
-### DETALLE_CITA
-- `IdDetalle`: clave primaria.
-- `IdCita`: clave foránea.
-- `IdServicio`: clave foránea.
-- `Precio`: precio histórico del servicio al reservar.
-- `DuracionMinutos`: duración histórica del servicio al reservar.
-
-Una cita puede contener uno o varios servicios. La duración total se obtiene sumando las duraciones de sus detalles. La hora final de la cita debe corresponder a esa duración total.
-
-### FACTURA
-- `IdFactura`: clave primaria.
-- `IdCita`: clave foránea y único, para permitir como máximo una factura por cita.
-- `FechaEmision`: fecha y hora de emisión.
-- `Total`: importe no negativo.
-- `Estado`: Pendiente, Pagada o Anulada.
-
-La factura del MVP es un registro interno de cobro; no equivale a facturación fiscal electrónica.
-
-## 3. Relaciones
+## 4. Relaciones
 
 - CLIENTE 1:N CITA.
 - PROFESIONAL 1:N CITA.
-- CITA 1:N DETALLE_CITA.
-- SERVICIO 1:N DETALLE_CITA.
-- CITA 1:0..1 FACTURA.
+- SERVICIO se mantiene como catálogo independiente en este esquema. La asignación de servicios a citas requeriría ampliar el modelo y no se declara implementada.
 
-## 4. Regla de solapamiento
+## 5. Regla de solapamiento
 
-Para una cita nueva se obtiene el inicio y el fin. Existe solapamiento cuando, para una cita no cancelada del mismo profesional:
+Para un mismo profesional existe cruce de horarios cuando:
 
-`inicioNuevo < finExistente AND finNuevo > inicioExistente`
+    inicioNuevo < finExistente AND finNuevo > inicioExistente
 
-Se excluye la cita actual cuando se modifica. Las citas canceladas no bloquean el horario. La comprobación debe ejecutarse en la lógica de negocio antes de guardar; para evitar carreras entre reservas simultáneas se debe ejecutar la comprobación y escritura dentro de una transacción adecuada.
+Las citas canceladas no deben bloquear el horario. Al editar una cita se excluye el registro que se está modificando. La validación debe ejecutarse en la lógica de negocio antes de guardar.
 
-## 5. Decisiones que debe confirmar el equipo
+## 6. Límites del modelo
 
-- Si el docente exige factura o solo un registro interno de pago.
-- Si se permitirán varios servicios por cita (este modelo lo permite).
-- Horarios laborales, pausas y días no laborables.
-- Si los profesionales tendrán cuentas propias.
-- Versiones exactas de .NET Framework y SQL Server.
+Esta versión documenta únicamente CLIENTE, PROFESIONAL, SERVICIO y CITA. No incluye DETALLE_CITA ni FACTURA. No se deben presentar esas funcionalidades como implementadas.
 
-## 6. Prueba técnica inicial
+## 7. Inicialización y verificación
 
-1. Ejecutar `sistema/base-datos/01_Crear_Base_Datos.sql` en SQL Server.
-2. Confirmar que aparecen las seis tablas.
-3. Insertar datos ficticios para probar relaciones.
-4. Conectar la aplicación mediante ADO.NET.
-5. Registrar y consultar un dato usando parámetros.
-6. Probar un error controlado de conexión.
-7. Guardar capturas y registrar resultados en `pruebas/evidencias`.
+Ejecutar sistema/base-datos/01_Crear_Base_Datos.sql en SSMS. El script crea la base SistemaAgendamiento, las cuatro tablas y los índices. Después, verificar los nombres de las tablas y adaptar la cadena local en App.config.
 
-No marcar la conexión o las pruebas como realizadas hasta ejecutarlas.
+## 8. Pruebas pendientes de evidenciar
+
+- Conexión desde la aplicación a SQL Server.
+- Inserción y consulta de registros.
+- Validación de campos obligatorios.
+- Relaciones de citas con clientes y profesionales.
+- Rechazo de intervalos superpuestos.
+- Manejo de errores de conexión.
