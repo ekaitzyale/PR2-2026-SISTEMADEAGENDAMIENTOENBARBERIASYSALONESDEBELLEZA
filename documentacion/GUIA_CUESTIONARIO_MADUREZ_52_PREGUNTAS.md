@@ -35,7 +35,7 @@ Objetivo general propuesto: desarrollar una aplicación de escritorio para gesti
 Sí: diseñar la base de datos; implementar el mantenimiento de clientes, profesionales y servicios; gestionar citas; validar disponibilidad; y ejecutar pruebas documentadas.
 
 **9. ¿Hay relación entre problema, objetivos, solución y resultados?**  
-Sí. La desorganización conduce a centralizar la agenda; la validación responde a los cruces; el resultado esperado es una agenda ordenada y ningún solapamiento en los casos probados.
+La relación propuesta es coherente: la desorganización conduce a centralizar la agenda y la validación responde a los cruces. La ausencia de solapamientos deberá demostrarse cuando se ejecuten los casos de prueba.
 
 **10. ¿Cómo sabrán si tuvieron éxito?**  
 Criterios propuestos: operaciones principales del MVP funcionales; rechazo de citas que se cruzan; aceptación de casos válidos; persistencia en SQL Server; y pruebas registradas. Son metas de aceptación del software, no una afirmación de impacto comercial ya medido.
@@ -80,7 +80,7 @@ Se conservarían estrictamente: registro de profesionales, registro de clientes,
 Sí, como propuesta: aplicación de escritorio conectada a SQL Server para administrar los datos mínimos y registrar citas sin solapamientos.
 
 **22. ¿Resuelve una parte real del problema?**  
-Sí: centraliza la agenda y evita reservas incompatibles del mismo profesional.
+Como solución propuesta, centraliza la agenda y busca evitar reservas incompatibles del mismo profesional. Su efectividad deberá comprobarse con pruebas funcionales y validación con usuarios.
 
 **23. ¿Puede terminarse a tiempo?**  
 Parcialmente. El repositorio contiene el script SQL, la solución C# y un helper de conexión, además de capturas aportadas por el equipo sobre una prueba previa. Sin embargo, el menú actual tiene sus botones deshabilitados y los módulos funcionales no están implementados. La fecha de entrega y la viabilidad del cronograma deben confirmarse con el docente y el equipo.
@@ -103,7 +103,7 @@ El cuestionario conserva capturas aportadas por el equipo que reportan una conex
 C# y Windows Forms para la aplicación de escritorio; SQL Server para datos relacionales; ADO.NET para la conexión desde C#. La elección coincide con el entorno planteado para la materia.
 
 **29. ¿Identificaron dependencias externas?**  
-Sí. El sistema requiere: sistema operativo Windows; Visual Studio con soporte para C# y .NET Framework; instancia de SQL Server accesible; y que todos los integrantes del equipo tengan instalados y configurados estos componentes. Se verificó que cada integrante cuenta con el entorno instalado y funcional.
+El sistema requiere Windows, Visual Studio con soporte para C# y .NET Framework 4.8, y una instancia accesible de SQL Server. El equipo indicó que sus integrantes cuentan con el entorno instalado, pero el repositorio no contiene un registro reproducible de esa verificación; cada integrante debe confirmar que puede abrir y compilar la solución y conectarse a su instancia local.
 
 **30. ¿La estructura técnica es clara?**  
 La arquitectura objetivo se describe en tres capas: presentación, lógica de negocio y acceso a datos. En el código revisado sí existen Program.cs, FrmMenu.cs y Datos/ConexionBD.cs; no se observan todavía clases de lógica de negocio ni formularios CRUD. Por tanto, las tres capas son el diseño previsto y no una implementación completa.
@@ -182,7 +182,7 @@ El repositorio ya contiene README, solución de Visual Studio, proyecto C#, cód
 No lograr conectar la aplicación con la base de datos; que la validación de horarios no funcione y se generen reservas duplicadas; perder el control de qué está incluido y qué no; no coordinar entre el equipo y que las partes no encajen; o no reservar tiempo para probar y corregir errores antes de entregar.
 
 **52. ¿Hay estrategia para evitar esas condiciones?**  
-Sí: mantener el alcance simple y definido; probar la conexión a la base de datos desde el inicio como ya se hizo; diseñar con anticipación todos los escenarios de solapamiento y probarlos antes de entregar; integrar el trabajo poco a poco usando el repositorio compartido; y dejar al menos una semana completa solo para pruebas y correcciones finales.
+Sí: mantener el alcance simple y definido; repetir y registrar la prueba de conexión sobre la versión actual; diseñar con anticipación los escenarios de solapamiento y probarlos antes de entregar; integrar el trabajo poco a poco usando el repositorio compartido; y reservar tiempo para pruebas y correcciones finales.
 
 ## Pendientes reales del equipo
 
