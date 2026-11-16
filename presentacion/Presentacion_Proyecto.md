@@ -99,25 +99,23 @@ SERVICIO
 IdServicio (PK)
 Nombre
 Duración
-PrecioBase
-SERVICIO
-Catálogo independiente en el esquema actual
+Precio
 
-Nota: el esquema actual no relaciona SERVICIO con CITA; esta decisión está pendiente.
+Nota: el esquema actual mantiene SERVICIO como catálogo independiente; la relación con CITA está pendiente de decisión.
 <PARSED TEXT FOR PAGE: 5 / 6>
 BENEFICIOS,
 COSTOS
 Y
 VIABILIDAD
 Administradores
-Visibilidad en tiempo real
-y menos trabajo manual
+Mejor organización de la agenda
+y menos trabajo manual esperado
 Personal operativo
-Organización y
-eliminación de empalmes
+Mayor claridad de horarios y
+menor riesgo de empalmes
 Clientes
-Reducción de esperas y
-garantía de cita
+Mejor consulta de disponibilidad
+y posible reducción de esperas
 <PARSED TEXT FOR PAGE: 6 / 6>
 Estado Actual y
 Próximos Pasos
@@ -125,7 +123,7 @@ Estado Actual y
 Próximos Pasos
 El repositorio contiene una solución inicial en C# Windows Forms, el menú principal, un helper de conexión y el script SQL de cuatro tablas.
 Los módulos CRUD, la agenda, la validación de solapamientos y las pruebas funcionales siguen pendientes.
-OCT-NOV 2026
+OCT-NOV 2026 (fechas tentativas)
 Diseño BD
 e interfaces
 Diseño BD
