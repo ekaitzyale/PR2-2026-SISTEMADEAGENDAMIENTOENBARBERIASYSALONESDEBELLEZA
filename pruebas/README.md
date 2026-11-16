@@ -1,8 +1,10 @@
 # Pruebas del sistema
 
-En esta carpeta se guardan los documentos y evidencias utilizados para verificar el funcionamiento del sistema.
+Esta carpeta contiene la estrategia, los casos y las evidencias para verificar el funcionamiento del sistema.
 
-- `casos-prueba/`: plan, casos ejecutados, resultado esperado y resultado obtenido.
-- `evidencias/`: capturas de pantalla y otros respaldos de las pruebas.
+- `casos-prueba/PLAN_DE_PRUEBAS.md`: casos, resultados esperados y registro de ejecución.
+- `evidencias/`: capturas y respaldos de pruebas ejecutadas.
 
-No marcar una prueba como aprobada hasta ejecutarla y registrar su resultado.
+**Estado actual:** el plan de casos está diseñado. Los casos siguen pendientes hasta que se ejecuten contra la versión identificada de la aplicación y se registre el resultado observado.
+
+Para cada prueba anotar fecha, versión/commit, responsable, resultado obtenido, estado (aprobado, fallido o bloqueado), evidencia e incidencia relacionada. Usar datos ficticios y no incluir credenciales ni información personal real.
