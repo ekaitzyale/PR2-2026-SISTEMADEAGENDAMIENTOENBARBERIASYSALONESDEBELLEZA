@@ -25,7 +25,7 @@ Este checklist organiza los elementos que el equipo debe revisar según la consi
 
 - [ ] Confirmar requisitos y alcance con el docente.
 - [ ] Incorporar evidencia primaria y anonimizada de entrevistas/observación.
-- [ ] Resolver cómo se relaciona SERVICIO con CITA.
+- [ ] Resolver cómo se relaciona SERVICIO con CITA ([Issue #13](https://github.com/ekaitzyale/PR2-2026-SISTEMADEAGENDAMIENTOENBARBERIASYSALONESDEBELLEZA/issues/13)).
 - [ ] Mantener arquitectura y modelo de datos alineados con el script SQL.
 - [ ] Actualizar cronograma con fechas reales y responsables.
 - [ ] Completar manual de usuario/técnico si lo solicita la consigna.
