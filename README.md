@@ -3,116 +3,101 @@
 **Equipo:** Virus  
 **Universidad:** Universidad Privada Franz Tamayo  
 **Sede:** Cochabamba, Bolivia  
-**Asignatura:** Programación II — P2  
+**Asignatura:** Programación II  
 **Docente:** Ing. Diego Patrick Cárdenas Sejas
 
-## 1. Descripción del proyecto
+## 1. Descripción y problema
 
-El proyecto busca mejorar la organización de citas en barberías y salones de belleza. La gestión manual puede provocar confusión de horarios, reservas superpuestas, pérdida de tiempo al consultar disponibilidad y dificultad para mantener registros ordenados.
-
-Se propone desarrollar una aplicación de escritorio que permita centralizar la información de clientes, profesionales, servicios y citas.
+El proyecto consiste en una aplicación de escritorio para apoyar la organización de clientes, profesionales, servicios y citas en barberías y salones de belleza. La gestión manual puede provocar confusión de horarios, reservas superpuestas y pérdida de información.
 
 ## 2. Objetivo
 
-Desarrollar un sistema de escritorio que facilite el registro y la administración de clientes, profesionales, servicios y citas, incluyendo una validación para evitar que un mismo profesional tenga citas superpuestas.
+Desarrollar un sistema que centralice la información principal del establecimiento y facilite la administración de citas, incluyendo la validación de disponibilidad de los profesionales.
 
-## 3. Usuarios del sistema
+## 3. Usuarios
 
-- **Administradores y recepción:** registran clientes, profesionales, servicios y gestionan las citas.
+- **Administradores y recepción:** registran clientes, profesionales, servicios y gestionan citas.
 - **Barberos y estilistas:** consultan su agenda.
-- **Clientes:** solicitan y reciben sus reservas a través del personal del establecimiento.
+- **Clientes:** solicitan reservas mediante el personal del establecimiento.
 
-## 4. Tecnologías previstas
-
-| Tecnología | Uso |
-|---|---|
-| C# con .NET Framework | Desarrollo de la aplicación |
-| Windows Forms | Interfaz gráfica |
-| SQL Server | Almacenamiento de datos |
-| ADO.NET (`System.Data.SqlClient`) | Acceso a la base de datos |
-| Visual Studio 2022 | Entorno de desarrollo |
-| Git y GitHub | Control de versiones y trabajo colaborativo |
-
-## 5. Estado del proyecto
-
-Según el avance documentado por el equipo, la base de datos `SistemaAgendamiento` y la prueba de conexión desde Windows Forms se encuentran realizadas. Los formularios de mantenimiento, la validación de solapamiento de citas y las pruebas deben completarse y documentarse.
-
-**Importante:** el repositorio todavía debe incorporar el proyecto de Visual Studio (`.sln`, `.csproj` y archivos de código) y el script SQL de creación de la base de datos. Hasta que esos archivos estén subidos, una persona que clone únicamente este repositorio no podrá ejecutar la aplicación.
-
-## 6. Estructura del repositorio
-
-```text
-/
-├── .editorconfig
-├── .gitignore
-├── README.md
-├── documentacion/
-│   ├── diagramas/
-│   ├── informe/
-│   ├── requisitos/
-│   ├── GANTT.md
-│   ├── GUIA_CUESTIONARIO_MADUREZ_52_PREGUNTAS.md
-│   └── PLAN_DE_DESARROLLO_Y_RIESGOS.md
-├── entregables/
-├── equipo/
-├── presentacion/
-├── pruebas/
-│   ├── casos-prueba/
-│   └── evidencias/
-└── sistema/
-    ├── base-datos/
-    ├── codigo/
-    └── recursos/
-```
-
-### ¿Qué debe guardarse en cada carpeta?
-
-| Carpeta | Contenido |
-|---|---|
-| `documentacion/requisitos` | Requisitos funcionales, no funcionales y alcance |
-| `documentacion/diagramas` | Diagramas de casos de uso, clases, actividades y modelo de datos |
-| `documentacion/informe` | Informe técnico y documentos finales |
-| `equipo` | Integrantes y responsabilidades |
-| `presentacion` | Material para exposiciones |
-| `sistema/codigo` | Solución de Visual Studio, proyectos y código fuente |
-| `sistema/base-datos` | Scripts SQL para crear y preparar la base de datos |
-| `sistema/recursos` | Imágenes, iconos y otros recursos de la aplicación |
-| `pruebas/casos-prueba` | Plan y resultados de pruebas |
-| `pruebas/evidencias` | Capturas de pantalla y evidencias de ejecución |
-| `entregables` | Versiones finales solicitadas para la entrega |
-
-## 7. Equipo y responsabilidades
+## 4. Equipo y responsabilidades
 
 | Integrante | Responsabilidad principal |
 |---|---|
-| Ekaitz Yale Yauli | Diseño de base de datos, conexión ADO.NET y acceso a datos |
-| Leonor Alejandra Almanza Arroyo | Diseño de formularios, interfaz de usuario y validaciones visuales |
-| Jairo Damian Rodríguez Huanca | Casos de prueba, evidencias y documentación |
-| Todo el equipo | Definición del alcance, integración y revisión |
+| Ekaitz Yale Yauli | Coordinación técnica, base de datos y acceso a datos |
+| Leonor Alejandra Almanza Arroyo | Formularios, interfaz y validaciones visuales |
+| Jairo Damian Rodríguez Huanca | Pruebas, evidencias y documentación |
+| Todo el equipo | Integración, revisión y decisiones de alcance |
 
-## 8. Requisitos para ejecutar
+## 5. Tecnologías y entorno
+
+| Tecnología | Uso |
+|---|---|
+| C# | Lenguaje de programación |
+| .NET Framework 4.8 | Plataforma del proyecto publicado |
+| Windows Forms | Interfaz de escritorio |
+| SQL Server | Base de datos relacional |
+| ADO.NET / System.Data.SqlClient | Acceso a datos |
+| Visual Studio 2022 | Entorno de desarrollo |
+| Git y GitHub | Control de versiones |
+
+## 6. Estado y funcionalidades
+
+El alcance de datos actual contiene cuatro tablas: CLIENTE, PROFESIONAL, SERVICIO y CITA. El repositorio incluye la solución inicial de Windows Forms, el menú, la clase de conexión ADO.NET y el script de creación de la base de datos. Los módulos de mantenimiento, la integración completa, la validación de solapamientos y las pruebas deben considerarse terminados únicamente cuando se encuentren implementados, ejecutados y documentados.
+
+## 7. Estructura del repositorio
+
+Se conserva la carpeta documentacion/ como equivalente funcional de docs/ para evitar duplicar documentos y romper rutas existentes.
+
+| Ruta | Contenido |
+|---|---|
+| .editorconfig, .gitignore | Convenciones y exclusiones |
+| documentacion/ | Visión, requisitos, arquitectura, modelo de datos, planificación y diagramas |
+| equipo/ | Integrantes y responsabilidades |
+| sistema/codigo/ | Solución de Visual Studio y código C# |
+| sistema/base-datos/ | Scripts SQL |
+| sistema/recursos/ | Recursos de la aplicación |
+| pruebas/ | Casos de prueba y evidencias |
+| presentacion/ | Material para exposición |
+| entregables/ | Archivos finales solicitados |
+| .github/ | Plantillas de incidencias y pull requests |
+
+## 8. Requisitos previos
 
 - Windows 10 o superior.
-- Visual Studio 2022 con la carga de trabajo de desarrollo de escritorio con .NET.
-- SQL Server instalado y en funcionamiento.
-- Versión de .NET Framework compatible con el proyecto.
+- Visual Studio 2022 con desarrollo de escritorio de .NET.
+- .NET Framework 4.8.
+- SQL Server y SQL Server Management Studio (SSMS).
+- Git.
 
-## 9. Preparación y ejecución
+## 9. Instalación, configuración y ejecución
 
-Cuando el equipo incorpore la solución y el script SQL al repositorio:
+1. Clonar este repositorio.
+2. Abrir sistema/codigo/SistemaAgendamiento.sln en Visual Studio.
+3. Ejecutar sistema/base-datos/01_Crear_Base_Datos.sql en SSMS.
+4. Revisar sistema/codigo/SistemaAgendamiento/App.config y adaptar Data Source al nombre de la instancia local de SQL Server.
+5. Compilar la solución y ejecutar desde Visual Studio.
 
-1. Clonar el repositorio.
-2. Abrir la solución `.sln` ubicada en `sistema/codigo`.
-3. Crear la base de datos utilizando el script ubicado en `sistema/base-datos`.
-4. Revisar la cadena de conexión en la clase `ConexionBD`.
-5. Compilar y ejecutar desde Visual Studio.
+La cadena incluida usa autenticación integrada como configuración de ejemplo. Cada integrante debe adaptarla a su entorno. No se deben subir contraseñas ni credenciales privadas.
 
-No se debe publicar una cadena de conexión con contraseñas ni otros datos privados. Cada integrante debe configurar sus datos locales.
+## 10. Documentación
 
-## 10. Trabajo colaborativo
+- [Visión y alcance](documentacion/vision-y-alcance.md)
+- [Requisitos y criterios](documentacion/requisitos/REQUISITOS_Y_CRITERIOS.md)
+- [Alcance del MVP](documentacion/requisitos/ALCANCE_MVP.md)
+- [Arquitectura y modelo de datos](documentacion/diagramas/ARQUITECTURA_Y_DATOS.md)
+- [Modelo de datos](documentacion/modelo-de-datos.md)
+- [Planificación](documentacion/planificacion.md)
+- [Plan de desarrollo y riesgos](documentacion/PLAN_DE_DESARROLLO_Y_RIESGOS.md)
+- [Cronograma Gantt](documentacion/GANTT.md)
+- [Integrantes y roles](documentacion/equipo/integrantes-y-roles.md)
+- [Acuerdos de trabajo](documentacion/equipo/acuerdos-de-trabajo.md)
+- [Plan de pruebas](pruebas/casos-prueba/PLAN_DE_PRUEBAS.md)
 
-- Realizar cambios pequeños y guardar avances con mensajes de commit descriptivos.
-- No subir carpetas generadas por Visual Studio como `.vs`, `bin` y `obj`.
-- No subir contraseñas, credenciales ni cadenas de conexión privadas.
-- Antes de modificar archivos compartidos, revisar los cambios recientes del equipo.
-- Mantener actualizados el README, la documentación y las evidencias.
+## 11. Trabajo colaborativo y seguridad
+
+- Realizar commits pequeños y descriptivos.
+- Revisar los cambios antes de integrarlos a main.
+- No subir .vs/, bin/, obj/, archivos temporales ni credenciales.
+- Usar datos ficticios en las pruebas.
+- Mantener documentación, diagramas y README sincronizados con la implementación real.
