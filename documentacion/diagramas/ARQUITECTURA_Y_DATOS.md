@@ -1,85 +1,56 @@
-# Arquitectura técnica y modelo de datos
+# Arquitectura técnica
 
-**Estado:** documentación alineada con el esquema actual de cuatro tablas del MVP.
+**Estado:** arquitectura objetivo propuesta. La implementación actual es inicial y todavía no completa las tres capas.
 
-## 1. Arquitectura
+## 1. Tecnologías
 
-La aplicación es una solución de escritorio desarrollada con C# y Windows Forms sobre .NET Framework 4.8. La arquitectura separa tres responsabilidades:
+- C# y Windows Forms.
+- .NET Framework 4.8.
+- SQL Server.
+- ADO.NET mediante `System.Data.SqlClient`.
+- Visual Studio 2022.
 
-1. **Presentación:** formularios Windows Forms para mostrar información y recibir datos.
-2. **Lógica de negocio:** validaciones, reglas de agenda y disponibilidad.
-3. **Acceso a datos:** clases ADO.NET para comunicarse con SQL Server.
+## 2. Arquitectura objetivo
 
-Flujo general: formulario → lógica de negocio → acceso a datos → SQL Server.
+La separación prevista es:
 
-## 2. Componentes
+1. **Presentación:** formularios Windows Forms para capturar datos y mostrar resultados.
+2. **Lógica de negocio:** validaciones, reglas de citas, cálculo de duración y disponibilidad.
+3. **Acceso a datos:** clases ADO.NET que ejecutan consultas parametrizadas contra SQL Server.
 
-| Componente | Responsabilidad |
-|---|---|
-| Windows Forms | Interfaz y navegación |
-| Lógica de negocio | Validaciones y reglas de agendamiento |
-| ADO.NET | Conexión y ejecución de consultas parametrizadas |
-| SQL Server | Persistencia de clientes, profesionales, servicios y citas |
+Flujo objetivo: Formulario → lógica de negocio → acceso a datos → SQL Server.
 
-La clase de conexión publicada se encuentra en sistema/codigo/SistemaAgendamiento/Datos/ConexionBD.cs y obtiene la cadena desde App.config. Cada integrante debe adaptar Data Source a su instancia local.
+Los formularios no deberían concentrar las reglas de negocio ni construir consultas SQL concatenando entradas del usuario.
 
-## 3. Modelo de datos actual
+## 3. Componentes existentes en el código
 
-El esquema actual contiene exactamente cuatro tablas:
+- `Program.cs`: configura los estilos visuales e inicia `Forms.FrmMenu`.
+- `Forms/FrmMenu.cs`: menú inicial con botones para Clientes, Profesionales, Servicios y Citas; los botones están deshabilitados.
+- `Datos/ConexionBD.cs`: obtiene una conexión desde `App.config` y contiene un método `ProbarConexion()`.
+- `App.config`: cadena de conexión de ejemplo/local, que cada integrante debe adaptar a su instancia.
 
-### CLIENTE
-- IdCliente: clave primaria autoincremental.
-- Nombre: obligatorio.
-- Telefono: obligatorio.
-- Email: opcional.
+En el código revisado todavía no aparecen los formularios CRUD, clases de lógica de negocio ni consultas de persistencia para los módulos. Por tanto, las tres capas describen la arquitectura objetivo, no el estado terminado.
 
-### PROFESIONAL
-- IdProfesional: clave primaria autoincremental.
-- Nombre y Especialidad: obligatorios.
-- Activo: indica si está habilitado.
+## 4. Modelo de datos
 
-### SERVICIO
-- IdServicio: clave primaria autoincremental.
-- Nombre: obligatorio.
-- DuracionMinutos: entero mayor que cero.
-- Precio: decimal no negativo.
-- Activo: indica si se ofrece actualmente.
+El modelo relacional detallado y las relaciones implementadas se mantienen en [modelo-de-datos.md](../modelo-de-datos.md). El script SQL vigente contiene cuatro tablas: CLIENTE, PROFESIONAL, SERVICIO y CITA.
 
-### CITA
-- IdCita: clave primaria autoincremental.
-- FechaHoraInicio y FechaHoraFin: intervalo reservado.
-- Estado: Programada, Atendida o Cancelada.
-- IdCliente: clave foránea hacia CLIENTE.
-- IdProfesional: clave foránea hacia PROFESIONAL.
-- Observacion: opcional.
-
-## 4. Relaciones
-
-- CLIENTE 1:N CITA.
-- PROFESIONAL 1:N CITA.
-- SERVICIO se mantiene como catálogo independiente en este esquema. La asignación de servicios a citas requeriría ampliar el modelo y no se declara implementada.
+**Brecha pendiente:** SERVICIO no está relacionado con CITA en el esquema actual. Resolver esta decisión antes de implementar la selección y persistencia del servicio en una reserva.
 
 ## 5. Regla de solapamiento
 
 Para un mismo profesional existe cruce de horarios cuando:
 
-    inicioNuevo < finExistente AND finNuevo > inicioExistente
+`inicioNuevo < finExistente AND finNuevo > inicioExistente`
 
 Las citas canceladas no deben bloquear el horario. Al editar una cita se excluye el registro que se está modificando. La validación debe ejecutarse en la lógica de negocio antes de guardar.
 
-## 6. Límites del modelo
+## 6. Prueba técnica y verificación
 
-Esta versión documenta únicamente CLIENTE, PROFESIONAL, SERVICIO y CITA. No incluye DETALLE_CITA ni FACTURA. No se deben presentar esas funcionalidades como implementadas.
+1. Ejecutar `sistema/base-datos/01_Crear_Base_Datos.sql` en SQL Server Management Studio.
+2. Confirmar la creación de las cuatro tablas.
+3. Ajustar `Data Source` en `App.config` a la instancia local.
+4. Probar conexión, lectura y escritura desde la versión actual de la aplicación.
+5. Registrar resultados y capturas en `pruebas/evidencias`.
 
-## 7. Inicialización y verificación
-
-Ejecutar sistema/base-datos/01_Crear_Base_Datos.sql en SSMS. El script crea la base SistemaAgendamiento, las cuatro tablas y los índices. Después, verificar los nombres de las tablas y adaptar la cadena local en App.config.
-
-## 8. Pruebas pendientes de evidenciar
-
-- Conexión desde la aplicación a SQL Server.
-- Inserción y consulta de registros.
-- Validación de campos obligatorios.
-- Relaciones de citas con clientes y profesionales.
-- Rechazo de intervalos superpuestos.
-- Manejo de errores de conexión.
+La guía del cuestionario conserva capturas aportadas por el equipo sobre una prueba anterior de conexión. El menú actual no muestra el botón “Probar” de la captura; se debe repetir la comprobación sobre la versión vigente.

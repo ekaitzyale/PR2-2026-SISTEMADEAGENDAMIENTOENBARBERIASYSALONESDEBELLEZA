@@ -26,8 +26,8 @@ para agendamiento y gestión de citas.
 Base de datos SQL Server para clientes, servicios y citas
 Interfaz gráfica en C# Windows Forms con operaciones CRUD
 Validación automática para evitar citas solapadas
-Dashboard con métricas de citas diarias
-Historial y reportes para seguimiento
+Dashboard avanzado como mejora posterior
+Consulta de agenda; reportes avanzados como mejora posterior
 OBJETIVOS CLAVE
 <PARSED TEXT FOR PAGE: 3 / 6>
 Funcionamiento y
@@ -73,9 +73,7 @@ C# + Windows Forms + SQL Server
 Visual Studio y ADO.NET
 para integración nativa y rendimiento
 MODELO RELACIONAL
-CLIENTE, PROFESIONAL, SERVICIO, CITA,
-DETALLE
-_CITA, FACTURA
+CLIENTE, PROFESIONAL, SERVICIO y CITA
 Claves primarias y foráneas para evitar
 duplicación y ordenar información
 BENEFICIOS
@@ -101,42 +99,31 @@ SERVICIO
 IdServicio (PK)
 Nombre
 Duración
-PrecioBase
-DETALLE
-_CITA
-IdDetalle (PK)
-IdCita (FK)
-IdServicio (FK)
 Precio
-FACTURA
-IdFactura (PK)
-IdCita (FK)
-Fecha
-Total
+
+Nota: el esquema actual mantiene SERVICIO como catálogo independiente; la relación con CITA está pendiente de decisión.
 <PARSED TEXT FOR PAGE: 5 / 6>
 BENEFICIOS,
 COSTOS
 Y
 VIABILIDAD
 Administradores
-Visibilidad en tiempo real
-y menos trabajo manual
+Mejor organización de la agenda
+y menos trabajo manual esperado
 Personal operativo
-Organización y
-eliminación de empalmes
+Mayor claridad de horarios y
+menor riesgo de empalmes
 Clientes
-Reducción de esperas y
-garantía de cita
+Mejor consulta de disponibilidad
+y posible reducción de esperas
 <PARSED TEXT FOR PAGE: 6 / 6>
 Estado Actual y
 Próximos Pasos
 Estado Actual y
 Próximos Pasos
-El proyecto está en planificación y preparación.
-Avanzamos con un cronograma claro hacia su finalización.
-El proyecto está en planificación y preparación.
-Avanzamos con un cronograma claro hacia su finalización.
-OCT-NOV 2026
+El repositorio contiene una solución inicial en C# Windows Forms, el menú principal, un helper de conexión y el script SQL de cuatro tablas.
+Los módulos CRUD, la agenda, la validación de solapamientos y las pruebas funcionales siguen pendientes.
+OCT-NOV 2026 (fechas tentativas)
 Diseño BD
 e interfaces
 Diseño BD

@@ -1,0 +1,21 @@
+name: Build Windows Forms
+
+on:
+  push:
+    branches: [main, organizacion-rubrica-final]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Compilar solución
+        run: msbuild .\sistema\codigo\SistemaAgendamiento.sln /m /p:Configuration=Release /verbosity:minimal
