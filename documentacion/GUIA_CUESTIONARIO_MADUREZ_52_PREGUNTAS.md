@@ -15,7 +15,7 @@ Sí: algunas barberías y salones organizan sus turnos con cuadernos y mensajes,
 Administradores, barberos, estilistas y personal que registra citas. En el MVP propuesto, el personal registrará las reservas; no se contempla una aplicación pública para reservar por Internet.
 
 **3. ¿Qué evidencia demuestra que el problema es real?**  
-Se realizó una investigación inicial en la zona, observando el funcionamiento diario de varios negocios del rubro. Se identificó que la mayoría gestiona sus agendas de forma manual, utilizando cuadernos, hojas sueltas o aplicaciones de mensajería, lo que provoca confusión en los horarios, duplicidad de reservas y demoras al intentar consultar disponibilidad. Estas observaciones confirman que la desorganización de la agenda es una necesidad real y frecuente en este tipo de negocios.
+El documento inicial del equipo describe la gestión manual mediante cuadernos y mensajería. El equipo también afirma haber realizado una observación inicial, pero el repositorio aún no contiene un registro verificable con fechas, método, cantidad de negocios/personas y resultados resumidos. La validación debe completarse documentalmente antes de presentar esa afirmación como evidencia comprobada.
 
 **4. ¿Qué consecuencias tiene el problema?**  
 Confusión en la agenda, reservas duplicadas del mismo profesional en el mismo horario, tiempo perdido gestionando consultas, clientes que llegan y no son atendidos, demoras en el servicio y dificultad para saber con anticipación qué citas hay pendientes.
@@ -83,7 +83,7 @@ Sí, como propuesta: aplicación de escritorio conectada a SQL Server para admin
 Sí: centraliza la agenda y evita reservas incompatibles del mismo profesional.
 
 **23. ¿Puede terminarse a tiempo?**  
-Sí. La conexión con la base de datos ya está probada y funciona correctamente. Los módulos restantes son independientes entre sí y se pueden desarrollar en paralelo. Se cuenta con un plan de trabajo semanal que permite completar todo antes de la fecha de entrega establecida.
+Parcialmente. El repositorio contiene el script SQL, la solución C# y un helper de conexión, además de capturas aportadas por el equipo sobre una prueba previa. Sin embargo, el menú actual tiene sus botones deshabilitados y los módulos funcionales no están implementados. La fecha de entrega y la viabilidad del cronograma deben confirmarse con el docente y el equipo.
 
 **24. ¿Las funciones posteriores están separadas?**  
 Sí: reservas públicas, notificaciones, dashboard avanzado, reportes complejos, facturación, productos e inventario se proponen como mejoras posteriores.
@@ -97,7 +97,7 @@ La propuesta usa C#, Windows Forms, SQL Server y ADO.NET, previstas en el docume
 Sí: conexión a SQL Server, relaciones de datos, validación de intervalos horarios, modificación de citas y manejo de errores.
 
 **27. ¿Validaron las integraciones críticas?**  
-Sí. Se realizó una prueba de conexión desde la aplicación de C# hacia SQL Server. La conexión se estableció exitosamente y se obtuvo confirmación del sistema. Queda pendiente realizar pruebas de lectura y escritura de registros reales, que se ejecutarán una vez definida la estructura de tablas.
+El cuestionario conserva capturas aportadas por el equipo que reportan una conexión exitosa en una prueba anterior. No obstante, en el código actualmente versionado el menú no contiene el botón de prueba mostrado en la captura; solo existe el método ConexionBD.ProbarConexion(). Se debe repetir la prueba con la versión actual y guardar evidencia asociada al commit probado. La lectura y escritura de registros sigue pendiente.
 
 **28. ¿Las decisiones tecnológicas están justificadas?**  
 C# y Windows Forms para la aplicación de escritorio; SQL Server para datos relacionales; ADO.NET para la conexión desde C#. La elección coincide con el entorno planteado para la materia.
@@ -106,7 +106,7 @@ C# y Windows Forms para la aplicación de escritorio; SQL Server para datos rela
 Sí. El sistema requiere: sistema operativo Windows; Visual Studio con soporte para C# y .NET Framework; instancia de SQL Server accesible; y que todos los integrantes del equipo tengan instalados y configurados estos componentes. Se verificó que cada integrante cuenta con el entorno instalado y funcional.
 
 **30. ¿La estructura técnica es clara?**  
-Sí. Se organiza en tres capas: 1) Capa de presentación: formularios de Windows Forms; 2) Capa de acceso a datos: clase ConexionBD responsable de conectar y ejecutar consultas en SQL Server; 3) Capa de lógica: clases que representan Clientes, Profesionales, Servicios y Citas. No se implementa arquitectura compleja innecesaria para el alcance del MVP.
+La arquitectura objetivo se describe en tres capas: presentación, lógica de negocio y acceso a datos. En el código revisado sí existen Program.cs, FrmMenu.cs y Datos/ConexionBD.cs; no se observan todavía clases de lógica de negocio ni formularios CRUD. Por tanto, las tres capas son el diseño previsto y no una implementación completa.
 
 ## 7. Datos, seguridad y calidad
 
@@ -117,15 +117,15 @@ Datos introducidos por el personal: clientes, profesionales, servicios y citas. 
 Sí. Se manejan datos personales básicos como nombres y teléfonos; no se solicitarán datos sensibles. La cadena de conexión no se almacenará en código visible ni en el repositorio público. Los datos de prueba que se usen durante el desarrollo serán ficticios. No se compartirá información de los usuarios reales con terceros.
  
 **33. ¿Cómo comprobarán las funciones?**  
-Mediante casos de prueba diseñados antes de codificar cada módulo: datos válidos que deben guardarse; datos incompletos o incorrectos que deben rechazarse; citas que se solapan que deben ser bloqueadas; y modificación/eliminación de registros con confirmación. Cada caso se ejecuta y se registra el resultado obtenido.
+Mediante los casos diseñados en pruebas/casos-prueba/PLAN_DE_PRUEBAS.md. Actualmente el plan contiene resultados esperados y estados iniciales pendientes; cada caso debe ejecutarse y registrarse antes de afirmar que fue aprobado.
 
 **34. ¿Hay una estrategia inicial de pruebas?**  
-Sí. Se realizarán: pruebas unitarias por formulario; pruebas de validación de entradas; pruebas de persistencia para verificar que los cambios se guardan en SQL Server; pruebas de integración para confirmar que todos los formularios usan la misma base de datos correctamente; y pruebas de regresión para asegurar que al agregar algo nuevo no se rompa lo que ya funcionaba.
+Existe una estrategia inicial que contempla pruebas funcionales, validación, reglas de negocio, persistencia, integración y regresión. Todavía no se deben presentar como ejecutadas: el plan de pruebas mantiene los casos pendientes y debe completarse con resultados y evidencias.
  
 ## 8. Plan de desarrollo
 
 **35. ¿El Gantt tiene tareas concretas?**  
-Sí. Se detalla por semana: Semana 1 — Definir alcance, entrevistar usuarios y diseñar la base de datos; Semana 2 — Crear tablas en SQL Server y configurar la conexión desde C#; Semana 3 — Desarrollar formularios de mantenimiento; Semana 4 — Desarrollar agenda y regla de validación de horarios; Semana 5 — Pruebas completas, corrección de errores y preparación de entrega final.
+El equipo cuenta con un cronograma/Gantt inicial. Las fechas y etapas son de planificación y deben actualizarse con la fecha oficial de entrega y el avance real; el documento consolidado PLANIFICACION_Y_CRONOGRAMA.md registra el estado comprobable de los archivos actuales.
 
 **36. ¿Cada tarea tiene responsable?**  
 Ekaitz: backend/base de datos; Leonor: interfaz y flujo; Jairo: pruebas y documentación. Integración y alcance son responsabilidad compartida.
@@ -168,13 +168,13 @@ Sí, pero ya están identificadas y se resolverán antes de implementar los mód
 Los casos límite de solapamiento horario ya fueron analizados: se validará que la hora de inicio de la nueva cita no quede entre la hora de inicio y fin de otra cita existente del mismo profesional. Quedan por definir detalles de interfaz y reportes secundarios que no afectan el funcionamiento del MVP.
 
 **48. ¿Falta una dependencia o recurso?**  
-No. El entorno de desarrollo está instalado y funcionando en las computadoras de cada integrante; la conexión con la base de datos ya fue probada exitosamente; el repositorio de GitHub está creado y accesible para todos. A medida que se generen los archivos del sistema, se subirán al repositorio para disponibilidad del equipo.
+El repositorio está creado y contiene la solución C#, el script SQL y la documentación. La instalación del entorno en cada equipo y la conexión local deben volver a comprobarse y registrarse. Los módulos de la aplicación aún requieren desarrollo e integración.
 
 **49. ¿Cada integrante sabría qué construir primero?**  
 Sí. Integrante 1: diseñar y crear las tablas en SQL Server; Integrante 2: diseñar los formularios de Clientes y Profesionales; Integrante 3: preparar los casos de prueba que se usarán para verificar cada función. Antes de integrar todo, se acuerda el nombre y tipo de cada campo para que todo funcione correctamente.
 
 **50. ¿Un nuevo integrante entendería el proyecto solo con el repositorio?**  
-Actualmente cuenta con el documento del problema, alcance, requisitos, arquitectura y plan de trabajo. A medida que avance el desarrollo se añadirá: el código completo de la aplicación, los scripts para crear la base de datos, un archivo README con instrucciones de instalación y configuración, y capturas de pantalla de las pruebas realizadas.
+El repositorio ya contiene README, solución de Visual Studio, proyecto C#, código inicial, script SQL, requisitos, arquitectura, planificación, presentación y plan de pruebas. Aún falta completar los módulos funcionales, registrar resultados de pruebas actuales, actualizar evidencias y añadir instrucciones finales de usuario/ejecución cuando la aplicación esté integrada.
 
 ## 11. Prueba de fracaso
 
@@ -189,7 +189,9 @@ Sí: mantener el alcance simple y definido; probar la conexión a la base de dat
 - Confirmar con el docente que el MVP propuesto cumple la consigna.
 - Actualizar este documento conforme avance el proyecto.
 
-##Evidencias: conexion aplicacion-Base de Datos
+## Evidencias de conexión aplicación–base de datos
+
+Las siguientes capturas fueron aportadas por el equipo como evidencia de una prueba anterior. Deben repetirse sobre la versión actualmente versionada: el menú actual no muestra el botón “Probar” de la captura y el script SQL vigente define seis tablas, mientras que la captura de SSMS muestra cuatro. No se consideran evidencia de que los módulos CRUD o la persistencia estén terminados.
 **Evidencia 1-Clase ConexionBD y cadena de conexion 
 
 <img width="1292" height="612" alt="image" src="https://github.com/user-attachments/assets/277eecb8-047e-44bf-a565-fc2a59841bb7" />
@@ -203,7 +205,7 @@ Se muestra la clase responsable de gestionar la conexión con SQL Server. La var
 <img width="804" height="490" alt="image" src="https://github.com/user-attachments/assets/eea01cb5-9f5c-43d2-822e-90b444cb6341" />
 
 
-Al ejecutar la aplicación y presionar el botón "Probar", el sistema intenta establecer comunicación con la base de datos. Al lograrlo, muestra el mensaje "¡CONECTADO!", confirmando que la aplicación de Windows Forms se comunica correctamente con SQL Server.
+La captura aportada muestra un intento anterior de conexión desde Windows Forms y un mensaje de conexión exitosa. El formulario actual del repositorio no incluye ese botón; repetir la comprobación con la versión vigente y asociar la evidencia a su commit.
 
 
 **Figura 3 — Base de datos SistemaAgendamiento en SQL Server Management Studio
@@ -211,5 +213,5 @@ Al ejecutar la aplicación y presionar el botón "Probar", el sistema intenta es
 <img width="229" height="215" alt="image" src="https://github.com/user-attachments/assets/14b52a71-5a4d-46cf-871e-e61d60ea1b80" />
 
 
-Se observa la base de datos  SistemaAgendamiento  dentro de la instancia del servidor, con su estructura de tablas ya creada:  Cliente ,  Profesional ,  Servicio  y  Cita . Esto confirma que el almacenamiento de datos está listo y accesible desde el motor de base de datos.
+La captura muestra una base de datos SistemaAgendamiento con cuatro tablas en una prueba anterior. El script SQL actualmente versionado define seis tablas (CLIENTE, PROFESIONAL, SERVICIO, CITA, DETALLE_CITA y FACTURA); actualizar la captura después de ejecutar el script vigente.
 
