@@ -1,20 +1,38 @@
 # Arquitectura técnica y modelo de datos
 
-**Estado:** modelo inicial propuesto para el MVP, alineado con las seis entidades incluidas en la presentación del equipo. Debe revisarse con el docente y mantenerse sincronizado con el script SQL.
+**Estado:** arquitectura objetivo propuesta y modelo relacional contrastado con el script SQL versionado. La arquitectura completa todavía no está implementada.
 
-## 1. Arquitectura
+## 1. Tecnologías
 
-La aplicación se organiza en tres partes:
+- C# y Windows Forms.
+- .NET Framework 4.8.
+- SQL Server.
+- ADO.NET mediante `System.Data.SqlClient`.
+- Visual Studio 2022.
 
-1. **Presentación:** formularios Windows Forms para registrar datos, consultar agenda y mostrar mensajes.
+## 2. Arquitectura objetivo
+
+La separación prevista es:
+
+1. **Presentación:** formularios Windows Forms para capturar datos y mostrar resultados.
 2. **Lógica de negocio:** validaciones, reglas de citas, cálculo de duración y disponibilidad.
 3. **Acceso a datos:** clases ADO.NET que ejecutan consultas parametrizadas contra SQL Server.
 
-Flujo: Formulario → lógica de negocio → acceso a datos (ADO.NET) → SQL Server.
+Flujo objetivo: Formulario → lógica de negocio → acceso a datos → SQL Server.
 
-Los formularios no deben concentrar toda la lógica ni construir consultas SQL concatenando texto ingresado por el usuario.
+Los formularios no deberían concentrar las reglas de negocio ni construir consultas SQL concatenando entradas del usuario.
 
-## 2. Entidades del modelo
+### Componentes que existen actualmente
+
+- `Program.cs`: configura los estilos visuales e inicia `Forms.FrmMenu`.
+- `Forms/FrmMenu.cs`: menú inicial con botones para Clientes, Profesionales, Servicios y Citas; los botones están deshabilitados.
+- `Datos/ConexionBD.cs`: obtiene una conexión desde `App.config` y contiene un método `ProbarConexion()`.
+- `App.config`: cadena de conexión de ejemplo/local, que cada integrante debe adaptar a su instancia.
+- `WindowsForms.cs`: archivo de comentarios de contexto; no implementa un formulario ni una funcionalidad.
+
+En el código revisado todavía no aparecen los formularios CRUD, clases de lógica de negocio ni consultas de persistencia para los módulos. Por tanto, las tres capas describen la arquitectura objetivo, no el estado terminado.
+
+## 3. Modelo de datos del script SQL
 
 ### CLIENTE
 - `IdCliente`: clave primaria.
@@ -26,7 +44,7 @@ Los formularios no deben concentrar toda la lógica ni construir consultas SQL c
 - `IdProfesional`: clave primaria.
 - `Nombre`: obligatorio.
 - `Especialidad`: obligatorio.
-- `Activo`: permite desactivar sin borrar el historial.
+- `Activo`: permite desactivar al profesional sin borrar su historial.
 
 ### SERVICIO
 - `IdServicio`: clave primaria.
@@ -47,21 +65,21 @@ Los formularios no deben concentrar toda la lógica ni construir consultas SQL c
 - `IdDetalle`: clave primaria.
 - `IdCita`: clave foránea.
 - `IdServicio`: clave foránea.
-- `Precio`: precio histórico del servicio al reservar.
-- `DuracionMinutos`: duración histórica del servicio al reservar.
+- `Precio`: precio histórico aplicado al reservar.
+- `DuracionMinutos`: duración histórica del servicio.
 
-Una cita puede contener uno o varios servicios. La duración total se obtiene sumando las duraciones de sus detalles. La hora final de la cita debe corresponder a esa duración total.
+Una cita puede incluir uno o varios servicios. La duración total se obtiene sumando las duraciones de sus detalles.
 
 ### FACTURA
 - `IdFactura`: clave primaria.
-- `IdCita`: clave foránea y único, para permitir como máximo una factura por cita.
+- `IdCita`: clave foránea y única, para permitir como máximo una factura por cita.
 - `FechaEmision`: fecha y hora de emisión.
 - `Total`: importe no negativo.
 - `Estado`: Pendiente, Pagada o Anulada.
 
-La factura del MVP es un registro interno de cobro; no equivale a facturación fiscal electrónica.
+Esta tabla representa un registro interno de cobro; no equivale a facturación fiscal electrónica.
 
-## 3. Relaciones
+## 4. Relaciones
 
 - CLIENTE 1:N CITA.
 - PROFESIONAL 1:N CITA.
@@ -69,30 +87,24 @@ La factura del MVP es un registro interno de cobro; no equivale a facturación f
 - SERVICIO 1:N DETALLE_CITA.
 - CITA 1:0..1 FACTURA.
 
-## 4. Regla de solapamiento
+El script actual no contiene las tablas SUCURSAL, TRABAJADOR, ADMINISTRATIVO, BARBERO, ESTILISTA, PRODUCTO ni FACTURA_DETALLE que aparecen en partes del modelo conceptual del documento inicial. No describirlas como tablas implementadas sin modificar primero y aprobar el esquema SQL.
 
-Para una cita nueva se obtiene el inicio y el fin. Existe solapamiento cuando, para una cita no cancelada del mismo profesional:
+## 5. Regla de solapamiento
+
+Existe solapamiento cuando, para una cita no cancelada del mismo profesional:
 
 `inicioNuevo < finExistente AND finNuevo > inicioExistente`
 
-Se excluye la cita actual cuando se modifica. Las citas canceladas no bloquean el horario. La comprobación debe ejecutarse en la lógica de negocio antes de guardar; para evitar carreras entre reservas simultáneas se debe ejecutar la comprobación y escritura dentro de una transacción adecuada.
+Al modificar, se excluye la cita actual. Las citas canceladas no bloquean el horario según la regla propuesta. La comprobación debe ejecutarse en la lógica de negocio antes de guardar; para evitar reservas simultáneas incompatibles, la comprobación y escritura deben coordinarse mediante una transacción adecuada.
 
-## 5. Decisiones que debe confirmar el equipo
-
-- Si el docente exige factura o solo un registro interno de pago.
-- Si se permitirán varios servicios por cita (este modelo lo permite).
-- Horarios laborales, pausas y días no laborables.
-- Si los profesionales tendrán cuentas propias.
-- Versiones exactas de .NET Framework y SQL Server.
-
-## 6. Prueba técnica inicial
+## 6. Prueba técnica y verificación
 
 1. Ejecutar `sistema/base-datos/01_Crear_Base_Datos.sql` en SQL Server.
-2. Confirmar que aparecen las seis tablas.
-3. Insertar datos ficticios para probar relaciones.
-4. Conectar la aplicación mediante ADO.NET.
-5. Registrar y consultar un dato usando parámetros.
-6. Probar un error controlado de conexión.
-7. Guardar capturas y registrar resultados en `pruebas/evidencias`.
+2. Confirmar que se crean las seis tablas esperadas.
+3. Insertar datos ficticios y comprobar las relaciones.
+4. Ajustar `App.config` a la instancia local.
+5. Ejecutar `ConexionBD.ProbarConexion()` desde una prueba o interfaz habilitada.
+6. Probar lectura y escritura con consultas parametrizadas.
+7. Registrar resultados y capturas en `pruebas/evidencias`.
 
-No marcar la conexión o las pruebas como realizadas hasta ejecutarlas.
+La guía del cuestionario contiene capturas que el equipo presentó como evidencia de una prueba anterior. Se debe repetir la prueba en la versión actual y actualizar la captura de SQL, ya que la evidencia existente muestra cuatro tablas y el script versionado define seis.
