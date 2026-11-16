@@ -50,7 +50,7 @@ Sí. Administrador: gestiona registros del sistema y supervisa la agenda; Profes
 Las funciones propuestas responden al problema descrito: registrar clientes y profesionales evita repetir datos; definir servicios identifica lo que se realizará; gestionar citas centraliza la información; y validar horarios busca evitar cruces. La confirmación con usuarios todavía debe respaldarse con evidencia documentada.
 
 **13. ¿Las funciones están descritas para que otro integrante las desarrolle?**  
-Sí. Cada módulo cuenta con su propósito, campos principales y comportamiento esperado en el documento de requisitos: Clientes (nombre, teléfono), Profesionales (nombre, especialidad), Servicios (nombre, precio, duración), Citas (cliente, profesional, servicio, fecha y hora), y validación de disponibilidad antes de guardar.
+Sí. Cada módulo cuenta con su propósito, campos principales y comportamiento esperado en el documento de requisitos: Clientes (nombre, teléfono), Profesionales (nombre, especialidad), Servicios (nombre, precio, duración), Citas (cliente, profesional, fecha y hora); la asociación del servicio está pendiente de resolverse en el modelo SQL. También se define la validación de disponibilidad antes de guardar.
 
 **14. ¿Cada función tiene criterios verificables?**  
 Sí. Por ejemplo: "al intentar guardar una cita con el mismo profesional en un horario ya ocupado, el sistema muestra un mensaje explicativo y no guarda el registro"; "al registrar una cita válida, esta se persiste en la base de datos y aparece en la lista de citas del día". Los criterios detallados se encuentran en el documento de casos de prueba.
