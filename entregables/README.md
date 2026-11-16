@@ -1,10 +1,11 @@
-# Entregables
+# Entregables académicos
 
-Guardar aquí únicamente las versiones finales solicitadas para la entrega académica, por ejemplo:
+Guardar aquí únicamente las versiones finales solicitadas por la consigna y el docente.
 
+Posibles entregables:
 - Informe final en PDF.
 - Manual de usuario o manual técnico, si corresponde.
-- Presentación final, si la consigna solicita una copia exportada.
-- Otros archivos de entrega solicitados por el docente.
+- Presentación final exportada, si se solicita una copia.
+- Otros archivos expresamente solicitados.
 
-Los archivos de trabajo y borradores deben permanecer en sus carpetas de documentación correspondientes.
+Los borradores permanecen en sus carpetas de documentación. Antes de entregar, comprobar que los archivos correspondan a la versión final revisada y que los enlaces funcionen.
