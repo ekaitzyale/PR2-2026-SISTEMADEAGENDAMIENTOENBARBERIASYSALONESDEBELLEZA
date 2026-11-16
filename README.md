@@ -135,6 +135,8 @@ La ejecución local de estos pasos debe confirmarse en cada equipo. El proyecto 
 
 No se debe declarar una función o prueba como terminada sin comprobarla en la aplicación y registrar evidencia.
 
-## 11. Colaboración
+## 11. Colaboración y mantenimiento
 
-Consultar [CONTRIBUTING.md](CONTRIBUTING.md). Los cambios deben ser pequeños, descriptivos y revisados antes de integrarse en `main`. No subir carpetas generadas (`.vs`, `bin`, `obj`), credenciales, datos personales reales ni archivos temporales.
+Consultar [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md) y [SECURITY.md](SECURITY.md). La licencia todavía está pendiente de aprobación del equipo; ver [LICENSE](LICENSE). El [checklist de entrega](documentacion/CHECKLIST_ENTREGA.md) reúne los pendientes de revisión.
+
+Los cambios deben ser pequeños, descriptivos y revisados antes de integrarse en `main`. No subir carpetas generadas (`.vs`, `bin`, `obj`), credenciales, datos personales reales ni archivos temporales.
