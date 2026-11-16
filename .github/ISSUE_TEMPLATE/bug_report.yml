@@ -1,0 +1,38 @@
+name: Reportar un error
+description: Informar un comportamiento incorrecto o un fallo reproducible.
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Descripción
+      description: Explica qué ocurre y qué esperabas que ocurriera.
+      placeholder: Describe el problema.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos para reproducir
+      description: Incluye pasos claros y usa únicamente datos ficticios.
+      placeholder: |
+        1. Abrir...
+        2. Seleccionar...
+        3. Observar...
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Entorno
+      description: Windows, versión de .NET, SQL Server y commit probado.
+    validations:
+      required: false
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidencia
+      description: Adjunta captura sin credenciales ni datos personales.
+    validations:
+      required: false
