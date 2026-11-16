@@ -1,0 +1,39 @@
+name: Nueva tarea
+description: Proponer o registrar una tarea del proyecto.
+title: "[TAREA] "
+labels: ["task"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Objetivo
+      description: ¿Qué se necesita realizar?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Criterios de aceptación
+      description: ¿Cómo sabremos que la tarea está terminada?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Base de datos
+        - Backend / C#
+        - Windows Forms / interfaz
+        - Pruebas
+        - Documentación
+        - Repositorio / configuración
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencias o notas
+      description: Indica bloqueos, archivos relacionados o decisiones pendientes.
+    validations:
+      required: false
