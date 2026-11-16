@@ -24,7 +24,7 @@ El MVP contempla mantenimiento de clientes, profesionales y servicios; registro 
 
 Las reservas públicas, notificaciones automáticas, pagos en línea, facturación fiscal, inventario, múltiples sucursales y reportes avanzados se consideran fuera del MVP inicial, salvo indicación distinta del docente.
 
-**Decisión técnica pendiente:** el esquema SQL actual contiene cuatro tablas y no relaciona SERVICIO con CITA. Si la cita debe guardar el servicio elegido, el equipo debe acordar y aprobar una ampliación del modelo antes de implementar esa función. No se debe afirmar que el servicio queda asociado a una cita mientras el esquema no lo permita.
+**Decisión técnica pendiente:** el esquema SQL actual contiene cuatro tablas y no relaciona SERVICIO con CITA. El equipo debe acordar cómo representar esa relación antes de implementar esa función. Seguimiento: [Issue #13](https://github.com/ekaitzyale/PR2-2026-SISTEMADEAGENDAMIENTOENBARBERIASYSALONESDEBELLEZA/issues/13).
 
 ## 4. Tecnologías y entorno
 
