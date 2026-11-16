@@ -103,7 +103,7 @@ El cuestionario conserva capturas aportadas por el equipo que reportan una conex
 C# y Windows Forms para la aplicación de escritorio; SQL Server para datos relacionales; ADO.NET para la conexión desde C#. La elección coincide con el entorno planteado para la materia.
 
 **29. ¿Identificaron dependencias externas?**  
-Sí. El sistema requiere: sistema operativo Windows; Visual Studio con soporte para C# y .NET Framework; instancia de SQL Server accesible; y que todos los integrantes del equipo tengan instalados y configurados estos componentes. Se verificó que cada integrante cuenta con el entorno instalado y funcional.
+El sistema requiere Windows, Visual Studio con soporte para C# y .NET Framework 4.8, y una instancia accesible de SQL Server. El equipo indicó que sus integrantes cuentan con el entorno instalado, pero el repositorio no contiene un registro reproducible de esa verificación; cada integrante debe confirmar que puede abrir y compilar la solución y conectarse a su instancia local.
 
 **30. ¿La estructura técnica es clara?**  
 La arquitectura objetivo se describe en tres capas: presentación, lógica de negocio y acceso a datos. En el código revisado sí existen Program.cs, FrmMenu.cs y Datos/ConexionBD.cs; no se observan todavía clases de lógica de negocio ni formularios CRUD. Por tanto, las tres capas son el diseño previsto y no una implementación completa.
