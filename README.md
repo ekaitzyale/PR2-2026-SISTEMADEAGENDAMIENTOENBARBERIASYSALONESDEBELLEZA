@@ -110,7 +110,8 @@ Abrir el menú no significa que los módulos de gestión estén terminados. La a
 - [Índice de documentación](documentacion/README.md)
 - [Visión y alcance](documentacion/vision-y-alcance.md)
 - [Requisitos y alcance del MVP](documentacion/requisitos/REQUISITOS_Y_ALCANCE.md)
-- [Arquitectura y modelo de datos](documentacion/diagramas/ARQUITECTURA_Y_DATOS.md)
+- [Arquitectura técnica](documentacion/diagramas/ARQUITECTURA_Y_DATOS.md)
+- [Modelo de datos](documentacion/modelo-de-datos.md)
 - [Planificación y cronograma](documentacion/PLANIFICACION_Y_CRONOGRAMA.md)
 - [Informe del problema y validación](documentacion/informe/PROBLEMA_OBJETIVOS_Y_VALIDACION.md)
 - [Cuestionario de madurez — 52 preguntas](documentacion/GUIA_CUESTIONARIO_MADUREZ_52_PREGUNTAS.md)
@@ -122,4 +123,4 @@ No declarar una función o prueba como terminada sin ejecutarla y registrar evid
 
 ## 11. Colaboración y seguridad
 
-Consultar [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md) y [SECURITY.md](SECURITY.md). Los cambios deben ser pequeños, descriptivos y revisados antes de integrarse en `main`. No subir `.vs`, `bin`, `obj`, credenciales, datos personales reales ni archivos temporales.
+Consultar [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md), [SECURITY.md](SECURITY.md) y [LICENSE](LICENSE). Los cambios deben ser pequeños, descriptivos y revisados antes de integrarse en `main`. No subir `.vs`, `bin`, `obj`, credenciales, datos personales reales ni archivos temporales.
