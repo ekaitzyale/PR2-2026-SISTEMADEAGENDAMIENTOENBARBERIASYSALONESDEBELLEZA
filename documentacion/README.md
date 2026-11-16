@@ -1,14 +1,17 @@
 # Documentación del proyecto
 
-Esta carpeta reúne los documentos de planificación, análisis y diseño.
+Este directorio reúne los documentos que explican el problema, los requisitos, el diseño técnico, la planificación y el seguimiento académico del proyecto.
 
-## Organización
+## Documentos principales
 
-- [Requisitos y criterios](requisitos/REQUISITOS_Y_CRITERIOS.md): requisitos del sistema.
-- [Alcance del MVP](requisitos/ALCANCE_MVP.md): funcionalidades incluidas en la primera versión.
-- [Arquitectura y datos](diagramas/ARQUITECTURA_Y_DATOS.md): descripción de arquitectura y modelo de datos.
-- [Plan de desarrollo y riesgos](PLAN_DE_DESARROLLO_Y_RIESGOS.md): etapas, dependencias y riesgos.
-- [Cronograma Gantt](GANTT.md): planificación temporal.
-- [Guía del cuestionario de madurez](GUIA_CUESTIONARIO_MADUREZ_52_PREGUNTAS.md): preparación para el cuestionario.
+| Documento | Contenido |
+|---|---|
+| [Requisitos y alcance](requisitos/REQUISITOS_Y_ALCANCE.md) | Usuarios, requisitos funcionales y no funcionales, criterios de aceptación, MVP y funciones fuera del alcance. |
+| [Arquitectura y modelo de datos](diagramas/ARQUITECTURA_Y_DATOS.md) | Arquitectura objetivo, componentes existentes, seis tablas del script SQL, relaciones y reglas de disponibilidad. |
+| [Planificación y cronograma](PLANIFICACION_Y_CRONOGRAMA.md) | Responsables, etapas, cronograma/Gantt, dependencias y riesgos. |
+| [Informe del proyecto](informe/PROBLEMA_OBJETIVOS_Y_VALIDACION.md) | Problema, objetivos, usuarios, valor esperado e investigación/validación. |
+| [Cuestionario de madurez](GUIA_CUESTIONARIO_MADUREZ_52_PREGUNTAS.md) | Respuestas de trabajo a las 52 preguntas y pendientes de evidencia. |
 
-Los diagramas, el informe final y sus anexos deben incorporarse en las carpetas correspondientes cuando estén elaborados y revisados por el equipo.
+## Criterio de actualización
+
+Los documentos distinguen entre propuesta, implementación visible en el repositorio y pruebas ejecutadas. Actualizar el documento principal de cada tema para evitar mantener la misma información en varios archivos. No declarar como realizado algo que no tenga evidencia verificable.
