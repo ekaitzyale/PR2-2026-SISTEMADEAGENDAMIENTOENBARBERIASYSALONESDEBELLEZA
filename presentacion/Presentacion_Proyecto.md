@@ -26,8 +26,8 @@ para agendamiento y gestión de citas.
 Base de datos SQL Server para clientes, servicios y citas
 Interfaz gráfica en C# Windows Forms con operaciones CRUD
 Validación automática para evitar citas solapadas
-Dashboard con métricas de citas diarias
-Historial y reportes para seguimiento
+Consulta de agenda; dashboard avanzado como mejora posterior
+Historial de citas; reportes avanzados como mejora posterior
 OBJETIVOS CLAVE
 <PARSED TEXT FOR PAGE: 3 / 6>
 Funcionamiento y
@@ -132,10 +132,8 @@ Estado Actual y
 Próximos Pasos
 Estado Actual y
 Próximos Pasos
-El proyecto está en planificación y preparación.
-Avanzamos con un cronograma claro hacia su finalización.
-El proyecto está en planificación y preparación.
-Avanzamos con un cronograma claro hacia su finalización.
+El repositorio ya contiene el script SQL y una solución inicial en C# Windows Forms.
+El menú principal y el helper de conexión están creados; los módulos CRUD, la agenda, la validación de solapamientos y las pruebas funcionales siguen pendientes.
 OCT-NOV 2026
 Diseño BD
 e interfaces
