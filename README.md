@@ -1,118 +1,140 @@
-# PR2-2026 — Sistema de Agendamiento y Gestión para Barberías y Salones de Belleza
+# Sistema de Agendamiento y Gestión para Barberías y Salones de Belleza
 
 **Equipo:** Virus  
-**Universidad:** Universidad Privada Franz Tamayo  
+**Institución:** Universidad Privada Franz Tamayo — Facultad de Ingeniería  
 **Sede:** Cochabamba, Bolivia  
-**Asignatura:** Programación II — P2  
+**Asignatura:** Programación II (P2)  
 **Docente:** Ing. Diego Patrick Cárdenas Sejas
 
-## 1. Descripción del proyecto
+## 1. Descripción
 
-El proyecto busca mejorar la organización de citas en barberías y salones de belleza. La gestión manual puede provocar confusión de horarios, reservas superpuestas, pérdida de tiempo al consultar disponibilidad y dificultad para mantener registros ordenados.
+El proyecto propone una aplicación de escritorio para apoyar la gestión de clientes, profesionales, servicios y citas en barberías y salones de belleza. Busca centralizar la agenda y ayudar a prevenir reservas superpuestas para un mismo profesional.
 
-Se propone desarrollar una aplicación de escritorio que permita centralizar la información de clientes, profesionales, servicios y citas.
+La propuesta parte del problema descrito en el documento inicial del equipo: la gestión mediante agendas físicas y mensajería puede dificultar la consulta de disponibilidad y la organización de turnos. La validación con usuarios debe respaldarse con entrevistas u observaciones documentadas.
 
-## 2. Objetivo
+## 2. Objetivo y usuarios
 
-Desarrollar un sistema de escritorio que facilite el registro y la administración de clientes, profesionales, servicios y citas, incluyendo una validación para evitar que un mismo profesional tenga citas superpuestas.
+**Objetivo general:** desarrollar una aplicación de escritorio que permita administrar los datos principales del establecimiento y gestionar citas con validación de disponibilidad.
 
-## 3. Usuarios del sistema
+- **Administración/recepción:** registra y consulta clientes, profesionales, servicios y citas.
+- **Profesionales:** necesitan consultar su agenda.
+- **Clientes:** solicitan reservas a través del personal; el MVP no contempla una aplicación pública web o móvil.
 
-- **Administradores y recepción:** registran clientes, profesionales, servicios y gestionan las citas.
-- **Barberos y estilistas:** consultan su agenda.
-- **Clientes:** solicitan y reciben sus reservas a través del personal del establecimiento.
+## 3. Alcance funcional
 
-## 4. Tecnologías previstas
+El MVP propuesto contempla:
+- Registro y consulta de clientes.
+- Registro y consulta de profesionales.
+- Registro y consulta de servicios con duración y precio.
+- Registro y consulta de citas.
+- Modificación y cancelación de citas.
+- Validación para evitar solapamientos del mismo profesional.
+- Persistencia de datos en SQL Server.
+
+Reservas públicas, notificaciones automáticas, pagos en línea, facturación fiscal, inventario, múltiples sucursales y reportes avanzados quedan fuera del MVP inicial, salvo que el docente indique lo contrario. El script SQL sí contiene una tabla `FACTURA` para un registro interno; el equipo debe confirmar si tendrá operaciones visibles en la primera versión.
+
+Los requisitos detallados y sus criterios verificables están en [REQUISITOS_Y_ALCANCE.md](documentacion/requisitos/REQUISITOS_Y_ALCANCE.md).
+
+## 4. Tecnologías
 
 | Tecnología | Uso |
 |---|---|
-| C# con .NET Framework | Desarrollo de la aplicación |
-| Windows Forms | Interfaz gráfica |
-| SQL Server | Almacenamiento de datos |
-| ADO.NET (`System.Data.SqlClient`) | Acceso a la base de datos |
+| C# | Lenguaje de la aplicación |
+| Windows Forms | Interfaz gráfica de escritorio |
+| .NET Framework 4.8 | Plataforma objetivo del proyecto |
+| SQL Server | Base de datos relacional |
+| ADO.NET / System.Data.SqlClient | Acceso a datos |
 | Visual Studio 2022 | Entorno de desarrollo |
-| Git y GitHub | Control de versiones y trabajo colaborativo |
+| Git y GitHub | Control de versiones y colaboración |
 
-## 5. Estado del proyecto
+## 5. Estado real del repositorio
 
-Según el avance documentado por el equipo, la base de datos `SistemaAgendamiento` y la prueba de conexión desde Windows Forms se encuentran realizadas. Los formularios de mantenimiento, la validación de solapamiento de citas y las pruebas deben completarse y documentarse.
+Este estado describe los archivos que están versionados; no equivale a certificar una ejecución en todos los equipos.
 
-**Importante:** el repositorio todavía debe incorporar el proyecto de Visual Studio (`.sln`, `.csproj` y archivos de código) y el script SQL de creación de la base de datos. Hasta que esos archivos estén subidos, una persona que clone únicamente este repositorio no podrá ejecutar la aplicación.
+| Componente | Estado comprobable en el repositorio |
+|---|---|
+| Solución y proyecto C# | Existen `.sln` y `.csproj` para .NET Framework 4.8. |
+| Inicio de la aplicación | `Program.cs` configura Windows Forms y abre `Forms.FrmMenu`. |
+| Menú principal | Existe una ventana inicial con botones de Clientes, Profesionales, Servicios y Citas; actualmente están deshabilitados. |
+| Acceso a datos | Existe `Datos/ConexionBD.cs` con creación y prueba de conexión ADO.NET. |
+| Configuración | Existe `App.config`; cada integrante debe revisar el servidor SQL local. |
+| Base de datos | Existe un script SQL que define seis tablas e índices. Su presencia no demuestra que se haya ejecutado en cada entorno. |
+| Módulos funcionales | Los CRUD, la agenda, la lógica de negocio y la validación de solapamientos todavía no están implementados en el código revisado. |
+| Pruebas | Hay un plan de casos; los casos deben ejecutarse y registrar resultados antes de marcarlos como aprobados. |
+
+La guía del cuestionario conserva capturas aportadas por el equipo sobre una prueba previa de conexión. Como el menú actual no contiene el botón de prueba que aparece en una de las capturas, se debe repetir y documentar la comprobación sobre la versión actual. La captura de SQL también debe actualizarse para reflejar las seis tablas del script vigente.
 
 ## 6. Estructura del repositorio
 
 ```text
 /
-├── .editorconfig
-├── .gitignore
-├── README.md
+├── .github/                 # Plantillas de incidencias y CI
+├── README.md                # Entrada principal del proyecto
+├── CONTRIBUTING.md          # Reglas para colaborar
+├── CHANGELOG.md             # Historial de cambios
+├── SECURITY.md              # Reporte responsable de problemas
+├── LICENSE                  # Estado de licencia del proyecto
 ├── documentacion/
-│   ├── diagramas/
-│   ├── informe/
-│   ├── requisitos/
-│   ├── GANTT.md
-│   ├── GUIA_CUESTIONARIO_MADUREZ_52_PREGUNTAS.md
-│   └── PLAN_DE_DESARROLLO_Y_RIESGOS.md
-├── entregables/
-├── equipo/
-├── presentacion/
+│   ├── requisitos/          # Requisitos y alcance del MVP
+│   ├── diagramas/           # Arquitectura y modelo de datos
+│   ├── informe/             # Problema, objetivos y validación
+│   ├── PLANIFICACION_Y_CRONOGRAMA.md
+│   └── GUIA_CUESTIONARIO_MADUREZ_52_PREGUNTAS.md
+├── equipo/                  # Integrantes y responsabilidades
+├── entregables/             # Versiones finales para la asignatura
+├── presentacion/            # Material de exposición
 ├── pruebas/
-│   ├── casos-prueba/
-│   └── evidencias/
+│   ├── casos-prueba/        # Plan y registro de pruebas
+│   └── evidencias/          # Capturas y respaldos
+├── scripts/                 # Automatizaciones auxiliares
 └── sistema/
-    ├── base-datos/
-    ├── codigo/
-    └── recursos/
+    ├── base-datos/          # Scripts SQL
+    ├── codigo/              # Solución y código C#
+    └── recursos/            # Recursos visuales
 ```
 
-### ¿Qué debe guardarse en cada carpeta?
-
-| Carpeta | Contenido |
-|---|---|
-| `documentacion/requisitos` | Requisitos funcionales, no funcionales y alcance |
-| `documentacion/diagramas` | Diagramas de casos de uso, clases, actividades y modelo de datos |
-| `documentacion/informe` | Informe técnico y documentos finales |
-| `equipo` | Integrantes y responsabilidades |
-| `presentacion` | Material para exposiciones |
-| `sistema/codigo` | Solución de Visual Studio, proyectos y código fuente |
-| `sistema/base-datos` | Scripts SQL para crear y preparar la base de datos |
-| `sistema/recursos` | Imágenes, iconos y otros recursos de la aplicación |
-| `pruebas/casos-prueba` | Plan y resultados de pruebas |
-| `pruebas/evidencias` | Capturas de pantalla y evidencias de ejecución |
-| `entregables` | Versiones finales solicitadas para la entrega |
-
-## 7. Equipo y responsabilidades
+## 7. Equipo
 
 | Integrante | Responsabilidad principal |
 |---|---|
-| Ekaitz Yale Yauli | Diseño de base de datos, conexión ADO.NET y acceso a datos |
-| Leonor Alejandra Almanza Arroyo | Diseño de formularios, interfaz de usuario y validaciones visuales |
-| Jairo Damian Rodríguez Huanca | Casos de prueba, evidencias y documentación |
-| Todo el equipo | Definición del alcance, integración y revisión |
+| Ekaitz Yale Yauli | Coordinación técnica, base de datos, backend y acceso ADO.NET |
+| Leonor Alejandra Almanza Arroyo | Interfaz, formularios Windows Forms, navegación y validaciones visuales |
+| Jairo Damian Rodríguez Huanca | Control de calidad, casos de prueba, evidencias y documentación |
+| Todo el equipo | Alcance, integración, revisión y presentación |
 
-## 8. Requisitos para ejecutar
+Ver [equipo/README.md](equipo/README.md).
+
+## 8. Requisitos previos
 
 - Windows 10 o superior.
-- Visual Studio 2022 con la carga de trabajo de desarrollo de escritorio con .NET.
-- SQL Server instalado y en funcionamiento.
-- Versión de .NET Framework compatible con el proyecto.
+- Visual Studio 2022 con soporte para desarrollo de escritorio .NET.
+- .NET Framework 4.8 Developer Pack/Targeting Pack.
+- SQL Server instalado y en ejecución.
+- SQL Server Management Studio (SSMS) o una herramienta compatible para ejecutar el script.
 
-## 9. Preparación y ejecución
-
-Cuando el equipo incorpore la solución y el script SQL al repositorio:
+## 9. Preparación local
 
 1. Clonar el repositorio.
-2. Abrir la solución `.sln` ubicada en `sistema/codigo`.
-3. Crear la base de datos utilizando el script ubicado en `sistema/base-datos`.
-4. Revisar la cadena de conexión en la clase `ConexionBD`.
-5. Compilar y ejecutar desde Visual Studio.
+2. Abrir `sistema/codigo/SistemaAgendamiento.sln` en Visual Studio.
+3. Abrir `sistema/base-datos/01_Crear_Base_Datos.sql` en SSMS y ejecutarlo en la instancia local de SQL Server.
+4. Revisar `sistema/codigo/SistemaAgendamiento/App.config` y ajustar `Data Source` al nombre de la instancia local. No añadir contraseñas ni credenciales personales al repositorio.
+5. Compilar la solución y ejecutar desde Visual Studio.
 
-No se debe publicar una cadena de conexión con contraseñas ni otros datos privados. Cada integrante debe configurar sus datos locales.
+La ejecución local de estos pasos debe confirmarse en cada equipo. El proyecto está en etapa inicial: abrir el menú no significa que los módulos de gestión estén terminados.
 
-## 10. Trabajo colaborativo
+## 10. Documentación y pruebas
 
-- Realizar cambios pequeños y guardar avances con mensajes de commit descriptivos.
-- No subir carpetas generadas por Visual Studio como `.vs`, `bin` y `obj`.
-- No subir contraseñas, credenciales ni cadenas de conexión privadas.
-- Antes de modificar archivos compartidos, revisar los cambios recientes del equipo.
-- Mantener actualizados el README, la documentación y las evidencias.
+- [Índice de documentación](documentacion/README.md)
+- [Requisitos y alcance](documentacion/requisitos/REQUISITOS_Y_ALCANCE.md)
+- [Arquitectura y modelo de datos](documentacion/diagramas/ARQUITECTURA_Y_DATOS.md)
+- [Planificación y cronograma](documentacion/PLANIFICACION_Y_CRONOGRAMA.md)
+- [Informe del problema y validación](documentacion/informe/PROBLEMA_OBJETIVOS_Y_VALIDACION.md)
+- [Cuestionario de madurez — 52 preguntas](documentacion/GUIA_CUESTIONARIO_MADUREZ_52_PREGUNTAS.md)
+- [Plan de pruebas](pruebas/casos-prueba/PLAN_DE_PRUEBAS.md)
+- [Presentación](presentacion/Presentacion_Proyecto.md)
+
+No se debe declarar una función o prueba como terminada sin comprobarla en la aplicación y registrar evidencia.
+
+## 11. Colaboración
+
+Consultar [CONTRIBUTING.md](CONTRIBUTING.md). Los cambios deben ser pequeños, descriptivos y revisados antes de integrarse en `main`. No subir carpetas generadas (`.vs`, `bin`, `obj`), credenciales, datos personales reales ni archivos temporales.
