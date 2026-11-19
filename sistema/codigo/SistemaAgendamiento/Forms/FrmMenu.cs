@@ -24,6 +24,8 @@ namespace SistemaAgendamiento.Forms
         private DateTimePicker filtroFecha;
         private ComboBox filtroProfesional;
         private Label fechaAgenda;
+        private MonthCalendar calendario;
+        private FlowLayoutPanel tarjetasInicio;
 
         public FrmMenu()
         {
@@ -113,6 +115,8 @@ namespace SistemaAgendamiento.Forms
             Encabezado("Inicio", "Resumen de tu negocio y acceso rápido a las operaciones");
             var disposicion = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.TopDown, WrapContents = false, AutoScroll = true };
             var tarjetas = new FlowLayoutPanel { Width = 1050, Height = 155, AutoSize = false, WrapContents = true };
+            tarjetasInicio = tarjetas;
+            contenido.Resize += AjustarTarjetas;
             string[] entidades = { "CLIENTE", "PROFESIONAL", "SERVICIO", "CITA" };
             string[] nombres = { "Clientes registrados", "Profesionales activos", "Servicios activos", "Citas programadas" };
             for (int i = 0; i < entidades.Length; i++)
@@ -128,6 +132,18 @@ namespace SistemaAgendamiento.Forms
             disposicion.Controls.Add(accesos);
             disposicion.Controls.Add(Etiqueta("Gestiona tus clientes, servicios y reservas en tiempo real. Las citas incluyen validación de horarios para evitar conflictos.", 10, secundario));
             contenido.Controls.Add(disposicion);
+            AjustarTarjetas(this, EventArgs.Empty);
+        }
+
+        private void AjustarTarjetas(object sender, EventArgs e)
+        {
+            if (moduloActual != "Inicio" || tarjetasInicio == null || tarjetasInicio.IsDisposed) return;
+            int ancho = Math.Max(490, contenido.ClientSize.Width - 28);
+            tarjetasInicio.Width = ancho;
+            int columnas = ancho >= 990 ? 4 : ancho >= 740 ? 3 : 2;
+            int anchoTarjeta = Math.Max(190, ancho / columnas - 17);
+            foreach (Control control in tarjetasInicio.Controls) control.Width = anchoTarjeta;
+            tarjetasInicio.Height = (int)Math.Ceiling(tarjetasInicio.Controls.Count / (double)columnas) * 150;
         }
 
         private string Contar(string entidad, string condicion)
@@ -156,9 +172,13 @@ namespace SistemaAgendamiento.Forms
                 barra.Controls.Add(Boton("+ Nueva cita", (s, e) => AbrirCita(), true));
                 barra.Controls.Add(Boton("Editar cita", (s, e) => EditarCita()));
                 barra.Controls.Add(Boton("Cancelar cita", (s, e) => CancelarCita()));
-                var filtros = new FlowLayoutPanel { Width = 1000, Height = 48, WrapContents = false };
-                filtros.Controls.Add(Boton("◀ Día anterior", (s, e) => CambiarDia(-1)));
-                filtros.Controls.Add(Boton("Hoy", (s, e) => { filtroFecha.Value = DateTime.Today; CargarTabla(); }));
+                var filtros = new FlowLayoutPanel { Width = 1000, Height = 48, WrapContents = false, AutoScroll = true };
+                var anterior = Boton("◀ Anterior", (s, e) => CambiarDia(-1));
+                anterior.Width = 120;
+                filtros.Controls.Add(anterior);
+                var hoy = Boton("Hoy", (s, e) => { filtroFecha.Value = DateTime.Today; CargarTabla(); });
+                hoy.Width = 75;
+                filtros.Controls.Add(hoy);
                 filtroFecha = new DateTimePicker { Width = 140, Format = DateTimePickerFormat.Short, Value = DateTime.Today, CalendarMonthBackground = panel, CalendarForeColor = texto };
                 filtroFecha.ValueChanged += (s, e) => CargarTabla();
                 filtroProfesional = new ComboBox { Width = 190, DropDownStyle = ComboBoxStyle.DropDownList, BackColor = panel, ForeColor = texto, FlatStyle = FlatStyle.Flat };
@@ -177,7 +197,9 @@ namespace SistemaAgendamiento.Forms
                 filtroProfesional.SelectedIndex = 0;
                 filtros.Controls.Add(filtroFecha);
                 filtros.Controls.Add(filtroProfesional);
-                filtros.Controls.Add(Boton("Día siguiente ▶", (s, e) => CambiarDia(1)));
+                var siguiente = Boton("Siguiente ▶", (s, e) => CambiarDia(1));
+                siguiente.Width = 125;
+                filtros.Controls.Add(siguiente);
                 filtroProfesional.SelectedIndexChanged += (s, e) => CargarTabla();
                 fechaAgenda = new Label { Dock = DockStyle.Bottom, Height = 29, ForeColor = dorado, Font = new Font("Segoe UI", 12, FontStyle.Bold), TextAlign = ContentAlignment.MiddleLeft };
                 barra.Controls.Add(fechaAgenda);
@@ -206,6 +228,18 @@ namespace SistemaAgendamiento.Forms
                 e.CellStyle.ForeColor = valor == "Programada" ? Color.FromArgb(114, 220, 175) : valor == "Cancelada" ? Color.FromArgb(246, 150, 150) : dorado;
             };
             contenido.Controls.Add(tabla);
+            if (modulo == "Citas")
+            {
+                var panelCalendario = new Panel { Dock = DockStyle.Right, Width = 245, BackColor = panel, Padding = new Padding(8, 14, 8, 8) };
+                var encabezadoCalendario = new Label { Dock = DockStyle.Top, Height = 33, Text = "SELECCIONAR FECHA", ForeColor = dorado, Font = new Font("Segoe UI", 10, FontStyle.Bold) };
+                calendario = new MonthCalendar { MaxSelectionCount = 1, ShowTodayCircle = true, CalendarDimensions = new Size(1, 1), BackColor = panel, ForeColor = texto, TitleBackColor = fondo, TitleForeColor = dorado, SelectionStart = filtroFecha.Value.Date };
+                calendario.DateSelected += (s, e) => filtroFecha.Value = e.Start.Date;
+                calendario.DateChanged += (s, e) => { if (filtroFecha.Value.Date != e.Start.Date) filtroFecha.Value = e.Start.Date; };
+                calendario.Location = new Point(8, 55);
+                panelCalendario.Controls.Add(calendario);
+                panelCalendario.Controls.Add(encabezadoCalendario);
+                contenido.Controls.Add(panelCalendario);
+            }
             contenido.Controls.Add(barra);
             CargarTabla();
         }
@@ -246,6 +280,8 @@ namespace SistemaAgendamiento.Forms
                     adaptador.Fill(datos);
                     tabla.DataSource = datos;
                     ConfigurarColumnas();
+                    if (moduloActual == "Citas" && calendario != null && calendario.SelectionStart.Date != filtroFecha.Value.Date)
+                        calendario.SetDate(filtroFecha.Value.Date);
                     if (moduloActual == "Citas" && fechaAgenda != null)
                         fechaAgenda.Text = "AGENDA DEL " + filtroFecha.Value.ToString("dddd, dd MMMM yyyy").ToUpperInvariant();
                     estado.Text = datos.Rows.Count + (moduloActual == "Citas" ? " cita(s) para la fecha seleccionada." : " registro(s) encontrados.");
