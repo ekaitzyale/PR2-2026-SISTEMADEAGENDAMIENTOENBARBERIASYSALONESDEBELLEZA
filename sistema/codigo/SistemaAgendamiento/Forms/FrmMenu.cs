@@ -152,7 +152,9 @@ namespace SistemaAgendamiento.Forms
                 barra.Controls.Add(Boton("+ Nuevo registro", (s, e) => NuevoRegistro(), true));
             else
             {
-                barra.Controls.Add(Boton("Cancelar cita", (s, e) => CancelarCita(), true));
+                barra.Controls.Add(Boton("+ Nueva cita", (s, e) => AbrirCita(), true));
+                barra.Controls.Add(Boton("Editar cita", (s, e) => EditarCita()));
+                barra.Controls.Add(Boton("Cancelar cita", (s, e) => CancelarCita()));
                 var filtros = new FlowLayoutPanel { Width = 800, Height = 48 };
                 filtroFecha = new DateTimePicker { Width = 180, Format = DateTimePickerFormat.Short, Value = DateTime.Today };
                 filtroProfesional = new ComboBox { Width = 245, DropDownStyle = ComboBoxStyle.DropDownList };
@@ -201,9 +203,10 @@ namespace SistemaAgendamiento.Forms
                 case "Servicios": consulta = "SELECT IdServicio, Nombre, DuracionMinutos, Precio, Activo FROM dbo.SERVICIO ORDER BY Nombre"; break;
                 case "Citas":
                     consulta = @"SELECT c.IdCita, c.FechaHoraInicio, c.FechaHoraFin, c.Estado,
-                        cl.Nombre AS Cliente, p.Nombre AS Profesional, c.Observacion
+                        cl.Nombre AS Cliente, p.Nombre AS Profesional, sv.Nombre AS Servicio, c.Observacion
                         FROM dbo.CITA c INNER JOIN dbo.CLIENTE cl ON cl.IdCliente = c.IdCliente
                         INNER JOIN dbo.PROFESIONAL p ON p.IdProfesional = c.IdProfesional
+                        LEFT JOIN dbo.SERVICIO sv ON sv.IdServicio = c.IdServicio
                         WHERE c.FechaHoraInicio >= @dia AND c.FechaHoraInicio < DATEADD(day, 1, @dia)
                         AND (@profesional = 0 OR c.IdProfesional = @profesional)
                         ORDER BY c.FechaHoraInicio"; break;
@@ -324,6 +327,24 @@ namespace SistemaAgendamiento.Forms
                 return true;
             }
             catch (Exception ex) { MessageBox.Show("No se pudo guardar el registro:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+        }
+
+        private void AbrirCita()
+        {
+            using (var formulario = new FrmCita())
+                if (formulario.ShowDialog(this) == DialogResult.OK) CargarTabla();
+        }
+
+        private void EditarCita()
+        {
+            if (tabla == null || tabla.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Selecciona primero una cita programada.");
+                return;
+            }
+            int id = Convert.ToInt32(tabla.SelectedRows[0].Cells["IdCita"].Value);
+            using (var formulario = new FrmCita(id))
+                if (formulario.ShowDialog(this) == DialogResult.OK) CargarTabla();
         }
 
         private void CancelarCita()
