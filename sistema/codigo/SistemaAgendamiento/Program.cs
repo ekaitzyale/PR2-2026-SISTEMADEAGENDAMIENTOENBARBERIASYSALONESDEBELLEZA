@@ -10,6 +10,8 @@ namespace SistemaAgendamiento
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            using (var bienvenida = new Forms.FrmBienvenida())
+                bienvenida.ShowDialog();
             Application.Run(new Forms.FrmMenu());
         }
     }
