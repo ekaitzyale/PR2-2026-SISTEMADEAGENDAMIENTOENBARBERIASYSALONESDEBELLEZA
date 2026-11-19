@@ -23,12 +23,15 @@ namespace SistemaAgendamiento.Forms
         private DataGridView tabla;
         private DateTimePicker filtroFecha;
         private ComboBox filtroProfesional;
+        private Label fechaAgenda;
+        private MonthCalendar calendario;
+        private FlowLayoutPanel tarjetasInicio;
 
         public FrmMenu()
         {
             Text = "BARBER & BEAUTY | Sistema de Agendamiento";
             StartPosition = FormStartPosition.CenterScreen;
-            MinimumSize = new Size(930, 620);
+            MinimumSize = new Size(990, 650);
             Size = new Size(1180, 740);
             BackColor = fondo;
             Font = new Font("Segoe UI", 10);
@@ -48,7 +51,7 @@ namespace SistemaAgendamiento.Forms
                 Text = nombre, Height = 43, Width = 184, FlatStyle = FlatStyle.Flat,
                 BackColor = destacado ? dorado : panel, ForeColor = destacado ? fondo : texto,
                 Font = new Font("Segoe UI", 10, FontStyle.Bold), Cursor = Cursors.Hand,
-                Margin = new Padding(0, 5, 0, 5)
+                Margin = new Padding(0, 5, 10, 5)
             };
             boton.FlatAppearance.BorderSize = 0;
             boton.Click += accion;
@@ -70,7 +73,7 @@ namespace SistemaAgendamiento.Forms
             lateral.Controls.Add(navegacion);
             lateral.Controls.Add(marca);
 
-            var principal = new Panel { Dock = DockStyle.Fill, Padding = new Padding(30, 24, 30, 20) };
+            var principal = new Panel { Dock = DockStyle.Fill, Padding = new Padding(26, 24, 26, 20) };
             var encabezado = new Panel { Dock = DockStyle.Top, Height = 100 };
             titulo = new Label { Dock = DockStyle.Top, Height = 48, ForeColor = texto, Font = new Font("Segoe UI", 23, FontStyle.Bold) };
             subtitulo = new Label { Dock = DockStyle.Top, Height = 28, ForeColor = secundario, Font = new Font("Segoe UI", 10) };
@@ -111,7 +114,9 @@ namespace SistemaAgendamiento.Forms
         {
             Encabezado("Inicio", "Resumen de tu negocio y acceso rápido a las operaciones");
             var disposicion = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.TopDown, WrapContents = false, AutoScroll = true };
-            var tarjetas = new FlowLayoutPanel { Width = 810, Height = 155, AutoSize = false, WrapContents = true };
+            var tarjetas = new FlowLayoutPanel { Width = 1050, Height = 155, AutoSize = false, WrapContents = true };
+            tarjetasInicio = tarjetas;
+            contenido.Resize += AjustarTarjetas;
             string[] entidades = { "CLIENTE", "PROFESIONAL", "SERVICIO", "CITA" };
             string[] nombres = { "Clientes registrados", "Profesionales activos", "Servicios activos", "Citas programadas" };
             for (int i = 0; i < entidades.Length; i++)
@@ -121,12 +126,24 @@ namespace SistemaAgendamiento.Forms
             }
             disposicion.Controls.Add(tarjetas);
             disposicion.Controls.Add(Etiqueta("ACCESOS RÁPIDOS", 12, dorado, true));
-            var accesos = new FlowLayoutPanel { Width = 810, Height = 65 };
+            var accesos = new FlowLayoutPanel { Width = 1050, Height = 65 };
             accesos.Controls.Add(Boton("Ver clientes", (s, e) => MostrarModulo("Clientes"), true));
             accesos.Controls.Add(Boton("Ver agenda", (s, e) => MostrarModulo("Citas"), true));
             disposicion.Controls.Add(accesos);
-            disposicion.Controls.Add(Etiqueta("Los datos se consultan directamente en SQL Server. La creación y edición de citas se incorporará con validación de horarios.", 10, secundario));
+            disposicion.Controls.Add(Etiqueta("Gestiona tus clientes, servicios y reservas en tiempo real. Las citas incluyen validación de horarios para evitar conflictos.", 10, secundario));
             contenido.Controls.Add(disposicion);
+            AjustarTarjetas(this, EventArgs.Empty);
+        }
+
+        private void AjustarTarjetas(object sender, EventArgs e)
+        {
+            if (moduloActual != "Inicio" || tarjetasInicio == null || tarjetasInicio.IsDisposed) return;
+            int ancho = Math.Max(490, contenido.ClientSize.Width - 28);
+            tarjetasInicio.Width = ancho;
+            int columnas = ancho >= 990 ? 4 : ancho >= 740 ? 3 : 2;
+            int anchoTarjeta = Math.Max(190, ancho / columnas - 17);
+            foreach (Control control in tarjetasInicio.Controls) control.Width = anchoTarjeta;
+            tarjetasInicio.Height = (int)Math.Ceiling(tarjetasInicio.Controls.Count / (double)columnas) * 150;
         }
 
         private string Contar(string entidad, string condicion)
@@ -145,8 +162,8 @@ namespace SistemaAgendamiento.Forms
 
         private void MostrarModulo(string modulo)
         {
-            Encabezado(modulo, modulo == "Citas" ? "Consulta la agenda y administra cancelaciones" : "Consulta y registra información del negocio");
-            var barra = new FlowLayoutPanel { Dock = DockStyle.Top, Height = modulo == "Citas" ? 112 : 64, AutoScroll = true };
+            Encabezado(modulo, modulo == "Citas" ? "Agenda diaria: consulta, edita y administra tus reservas" : "Consulta y registra información del negocio");
+            var barra = new FlowLayoutPanel { Dock = DockStyle.Top, Height = modulo == "Citas" ? 158 : 64, AutoScroll = true };
             barra.Controls.Add(Boton("↻ Actualizar", (s, e) => CargarTabla()));
             if (modulo != "Citas")
                 barra.Controls.Add(Boton("+ Nuevo registro", (s, e) => NuevoRegistro(), true));
@@ -155,9 +172,16 @@ namespace SistemaAgendamiento.Forms
                 barra.Controls.Add(Boton("+ Nueva cita", (s, e) => AbrirCita(), true));
                 barra.Controls.Add(Boton("Editar cita", (s, e) => EditarCita()));
                 barra.Controls.Add(Boton("Cancelar cita", (s, e) => CancelarCita()));
-                var filtros = new FlowLayoutPanel { Width = 800, Height = 48 };
-                filtroFecha = new DateTimePicker { Width = 180, Format = DateTimePickerFormat.Short, Value = DateTime.Today };
-                filtroProfesional = new ComboBox { Width = 245, DropDownStyle = ComboBoxStyle.DropDownList };
+                var filtros = new FlowLayoutPanel { Width = 1000, Height = 48, WrapContents = false, AutoScroll = true };
+                var anterior = Boton("◀ Anterior", (s, e) => CambiarDia(-1));
+                anterior.Width = 120;
+                filtros.Controls.Add(anterior);
+                var hoy = Boton("Hoy", (s, e) => { filtroFecha.Value = DateTime.Today; CargarTabla(); });
+                hoy.Width = 75;
+                filtros.Controls.Add(hoy);
+                filtroFecha = new DateTimePicker { Width = 140, Format = DateTimePickerFormat.Short, Value = DateTime.Today, CalendarMonthBackground = panel, CalendarForeColor = texto };
+                filtroFecha.ValueChanged += (s, e) => CargarTabla();
+                filtroProfesional = new ComboBox { Width = 190, DropDownStyle = ComboBoxStyle.DropDownList, BackColor = panel, ForeColor = texto, FlatStyle = FlatStyle.Flat };
                 filtroProfesional.Items.Add(new OpcionProfesional(0, "Todos los profesionales"));
                 try
                 {
@@ -173,21 +197,49 @@ namespace SistemaAgendamiento.Forms
                 filtroProfesional.SelectedIndex = 0;
                 filtros.Controls.Add(filtroFecha);
                 filtros.Controls.Add(filtroProfesional);
-                filtros.Controls.Add(Boton("Filtrar agenda", (s, e) => CargarTabla(), true));
+                var siguiente = Boton("Siguiente ▶", (s, e) => CambiarDia(1));
+                siguiente.Width = 125;
+                filtros.Controls.Add(siguiente);
+                filtroProfesional.SelectedIndexChanged += (s, e) => CargarTabla();
+                fechaAgenda = new Label { Dock = DockStyle.Bottom, Height = 29, ForeColor = dorado, Font = new Font("Segoe UI", 12, FontStyle.Bold), TextAlign = ContentAlignment.MiddleLeft };
+                barra.Controls.Add(fechaAgenda);
                 barra.Controls.Add(filtros);
             }
             tabla = new DataGridView
             {
                 Dock = DockStyle.Fill, BackgroundColor = panel, BorderStyle = BorderStyle.None,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None,
                 ReadOnly = true, AllowUserToAddRows = false, AllowUserToDeleteRows = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect, MultiSelect = false,
                 RowHeadersVisible = false, EnableHeadersVisualStyles = false,
-                ColumnHeadersHeight = 38, RowTemplate = { Height = 34 },
+                ColumnHeadersHeight = 46, RowTemplate = { Height = 42 },
+                AllowUserToResizeRows = false, AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None,
+                CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal,
+                AlternatingRowsDefaultCellStyle = { BackColor = Color.FromArgb(34, 43, 55), ForeColor = texto, SelectionBackColor = Color.FromArgb(67, 82, 97), SelectionForeColor = Color.White },
                 GridColor = fondo, ForeColor = texto, DefaultCellStyle = { BackColor = panel, ForeColor = texto, SelectionBackColor = Color.FromArgb(67, 82, 97), SelectionForeColor = Color.White },
                 ColumnHeadersDefaultCellStyle = { BackColor = fondo, ForeColor = dorado, Font = new Font("Segoe UI", 10, FontStyle.Bold) }
             };
+            tabla.CellFormatting += (s, e) =>
+            {
+                if (moduloActual != "Citas" || e.RowIndex < 0 || e.ColumnIndex < 0) return;
+                if (tabla.Columns[e.ColumnIndex].Name != "Estado" || e.Value == null) return;
+                string valor = Convert.ToString(e.Value);
+                e.CellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+                e.CellStyle.ForeColor = valor == "Programada" ? Color.FromArgb(114, 220, 175) : valor == "Cancelada" ? Color.FromArgb(246, 150, 150) : dorado;
+            };
             contenido.Controls.Add(tabla);
+            if (modulo == "Citas")
+            {
+                var panelCalendario = new Panel { Dock = DockStyle.Right, Width = 245, BackColor = panel, Padding = new Padding(8, 14, 8, 8) };
+                var encabezadoCalendario = new Label { Dock = DockStyle.Top, Height = 33, Text = "SELECCIONAR FECHA", ForeColor = dorado, Font = new Font("Segoe UI", 10, FontStyle.Bold) };
+                calendario = new MonthCalendar { MaxSelectionCount = 1, ShowTodayCircle = true, CalendarDimensions = new Size(1, 1), BackColor = panel, ForeColor = texto, TitleBackColor = fondo, TitleForeColor = dorado, SelectionStart = filtroFecha.Value.Date };
+                calendario.DateSelected += (s, e) => filtroFecha.Value = e.Start.Date;
+                calendario.DateChanged += (s, e) => { if (filtroFecha.Value.Date != e.Start.Date) filtroFecha.Value = e.Start.Date; };
+                calendario.Location = new Point(8, 55);
+                panelCalendario.Controls.Add(calendario);
+                panelCalendario.Controls.Add(encabezadoCalendario);
+                contenido.Controls.Add(panelCalendario);
+            }
             contenido.Controls.Add(barra);
             CargarTabla();
         }
@@ -202,7 +254,8 @@ namespace SistemaAgendamiento.Forms
                 case "Profesionales": consulta = "SELECT IdProfesional, Nombre, Especialidad, Activo FROM dbo.PROFESIONAL ORDER BY Nombre"; break;
                 case "Servicios": consulta = "SELECT IdServicio, Nombre, DuracionMinutos, Precio, Activo FROM dbo.SERVICIO ORDER BY Nombre"; break;
                 case "Citas":
-                    consulta = @"SELECT c.IdCita, c.FechaHoraInicio, c.FechaHoraFin, c.Estado,
+                    consulta = @"SELECT c.IdCita, CONVERT(varchar(5), c.FechaHoraInicio, 108) AS Inicio,
+                        CONVERT(varchar(5), c.FechaHoraFin, 108) AS Fin, c.Estado,
                         cl.Nombre AS Cliente, p.Nombre AS Profesional, sv.Nombre AS Servicio, c.Observacion
                         FROM dbo.CITA c INNER JOIN dbo.CLIENTE cl ON cl.IdCliente = c.IdCliente
                         INNER JOIN dbo.PROFESIONAL p ON p.IdProfesional = c.IdProfesional
@@ -226,7 +279,12 @@ namespace SistemaAgendamiento.Forms
                     var datos = new DataTable();
                     adaptador.Fill(datos);
                     tabla.DataSource = datos;
-                    estado.Text = datos.Rows.Count + " registro(s) encontrados.";
+                    ConfigurarColumnas();
+                    if (moduloActual == "Citas" && calendario != null && calendario.SelectionStart.Date != filtroFecha.Value.Date)
+                        calendario.SetDate(filtroFecha.Value.Date);
+                    if (moduloActual == "Citas" && fechaAgenda != null)
+                        fechaAgenda.Text = "AGENDA DEL " + filtroFecha.Value.ToString("dddd, dd MMMM yyyy").ToUpperInvariant();
+                    estado.Text = datos.Rows.Count + (moduloActual == "Citas" ? " cita(s) para la fecha seleccionada." : " registro(s) encontrados.");
                 }
             }
             catch (Exception ex)
@@ -235,6 +293,48 @@ namespace SistemaAgendamiento.Forms
                 estado.Text = "Error al consultar SQL Server.";
                 MessageBox.Show("No fue posible consultar los datos. Comprueba SQL Server y App.config.\n\nDetalle: " + ex.Message, "Conexión", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void CambiarDia(int dias)
+        {
+            if (filtroFecha == null) return;
+            filtroFecha.Value = filtroFecha.Value.AddDays(dias);
+        }
+
+        private void ConfigurarColumnas()
+        {
+            if (tabla == null) return;
+            tabla.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            foreach (DataGridViewColumn columna in tabla.Columns)
+            {
+                columna.MinimumWidth = 75;
+                columna.Width = 150;
+                columna.SortMode = DataGridViewColumnSortMode.Automatic;
+            }
+            if (moduloActual == "Citas")
+            {
+                AjustarColumna("IdCita", "Nº", 55);
+                AjustarColumna("Inicio", "Inicio", 90);
+                AjustarColumna("Fin", "Fin", 90);
+                AjustarColumna("Estado", "Estado", 115);
+                AjustarColumna("Cliente", "Cliente", 185);
+                AjustarColumna("Profesional", "Profesional", 185);
+                AjustarColumna("Servicio", "Servicio", 165);
+                AjustarColumna("Observacion", "Observaciones", 220);
+            }
+            else
+            {
+                foreach (DataGridViewColumn columna in tabla.Columns)
+                    columna.Width = columna.Name == "Nombre" ? 230 : 170;
+            }
+        }
+
+        private void AjustarColumna(string nombre, string tituloColumna, int ancho)
+        {
+            if (!tabla.Columns.Contains(nombre)) return;
+            tabla.Columns[nombre].HeaderText = tituloColumna;
+            tabla.Columns[nombre].Width = ancho;
+            tabla.Columns[nombre].MinimumWidth = Math.Min(75, ancho);
         }
 
         private void NuevoRegistro()

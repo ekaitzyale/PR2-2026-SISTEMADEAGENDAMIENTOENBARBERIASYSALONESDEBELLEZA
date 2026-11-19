@@ -41,6 +41,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Forms\FrmMenu.cs" />
     <Compile Include="Forms\FrmCita.cs" />
+    <Compile Include="Forms\FrmBienvenida.cs" />
     <Compile Include="Datos\ConexionBD.cs" />
     <None Include="App.config" />
   </ItemGroup>

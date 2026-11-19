@@ -24,10 +24,14 @@ namespace SistemaAgendamiento.Forms
             StartPosition = FormStartPosition.CenterParent;
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false; MinimizeBox = false;
-            ClientSize = new Size(520, 590);
+            ClientSize = new Size(520, 650);
             BackColor = fondo; ForeColor = Color.White;
             Font = new Font("Segoe UI", 10);
-            int y = 22;
+            var cabecera = new Panel { Bounds = new Rectangle(0, 0, 520, 75), BackColor = panel };
+            cabecera.Controls.Add(new Label { Text = cita.HasValue ? "EDITAR RESERVA" : "NUEVA RESERVA", ForeColor = oro, Font = new Font("Segoe UI", 18, FontStyle.Bold), Bounds = new Rectangle(24, 12, 470, 36) });
+            cabecera.Controls.Add(new Label { Text = "BARBER & BEAUTY  /  AGENDA", ForeColor = Color.FromArgb(158, 171, 186), Font = new Font("Segoe UI", 9), Bounds = new Rectangle(25, 48, 460, 20) });
+            Controls.Add(cabecera);
+            int y = 95;
             AgregarTitulo("CLIENTE", ref y); AgregarControl(clientes, ref y);
             AgregarTitulo("PROFESIONAL", ref y); AgregarControl(profesionales, ref y);
             AgregarTitulo("SERVICIO", ref y); AgregarControl(servicios, ref y);
@@ -40,6 +44,7 @@ namespace SistemaAgendamiento.Forms
             var guardar = new Button { Text = cita.HasValue ? "Guardar cambios" : "Confirmar cita", BackColor = oro, ForeColor = fondo, FlatStyle = FlatStyle.Flat, Font = new Font("Segoe UI", 10, FontStyle.Bold) };
             guardar.FlatAppearance.BorderSize = 0;
             guardar.SetBounds(24, y + 60, 460, 45);
+            guardar.Cursor = Cursors.Hand;
             guardar.Click += (s, e) => Guardar();
             Controls.Add(guardar);
             AcceptButton = guardar;
@@ -47,6 +52,7 @@ namespace SistemaAgendamiento.Forms
             {
                 cb.DropDownStyle = ComboBoxStyle.DropDownList;
                 cb.BackColor = panel; cb.ForeColor = Color.White;
+                cb.FlatStyle = FlatStyle.Flat;
             }
             fecha.Format = DateTimePickerFormat.Short;
             fecha.MinDate = new DateTime(2000, 1, 1);
@@ -77,7 +83,8 @@ namespace SistemaAgendamiento.Forms
 
         private void AgregarControl(Control control, ref int y)
         {
-            control.SetBounds(24, y, 460, 29);
+            control.SetBounds(24, y, 460, 32);
+            if (control is TextBox) { ((TextBox)control).BackColor = panel; ((TextBox)control).ForeColor = Color.White; ((TextBox)control).BorderStyle = BorderStyle.FixedSingle; }
             Controls.Add(control);
             y += 51;
         }
